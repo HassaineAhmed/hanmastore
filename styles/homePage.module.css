@@ -1,0 +1,20 @@
+.text {
+  overflow : hidden;
+  position : absolute;
+
+}
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(200px);
+  }
+}
+.slideIn {
+  transform: translate(0%);
+}
+.slideOut {
+  transform: translate(300%);
+}
+
