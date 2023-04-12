@@ -56,7 +56,7 @@ export function WelcomingSection() {
         width={94}
         height={78}
         alt="white logo"
-      />{" "}
+      />
       <p className={"text-3xl text-white text-center pt-3"}>
         {" "}
         Welcome to hanma store{" "}
