@@ -1,0 +1,164 @@
+.container {
+  display: flex;
+}
+
+.Input {
+  width: 350px;
+  height: 50px;
+  margin: 10px 0;
+}
+
+.buttonWrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.submitButton {
+  max-width: 250px;
+  max-height: 80px;
+  background-color: white;
+  color: #a0e4cb;
+  font-size: 30px;
+  font-weight: 200;
+  transition: 0.4s;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  width: 80%;
+  margin: 10px 0;
+  border: solid;
+  border-width: 4px;
+  border-color: #a0e4cb;
+}
+
+.submitButton:hover {
+  letter-spacing: 0.25em;
+  width: 100%;
+  box-shadow: 0 0 40px #a0e4cb;
+  /* background-color: #A0E4CB; */
+  background-color: white;
+}
+
+.fileLabel {
+  color: black;
+  display: grid;
+  margin: 5px 0;
+  align-items: center;
+  width: 250px;
+  height: 50px;
+  font-size: 15px;
+  text-align: center;
+  border-radius: 5px;
+  background-color: #8dcbe6;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+/* .fileLabel:hover {
+    color: black;
+    box-shadow: 0 0 40px #1e9bff;
+
+} */
+
+.Img {
+  background-color: #a0e4cb;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: -30px 30px 20px rgba(0, 209, 80, 0.3);
+  transition: 0.5s;
+}
+
+.Img:hover {
+  width: 410px;
+  height: 410px;
+  box-shadow: 0 0 40px #1e9bff;
+
+  /* background-color: #A0E4CB; */
+}
+
+.leftHalf {
+  position: relative;
+  width: 50vw;
+  height: 100vh;
+  background-color: #3a54aa;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rightHalf {
+  position: relative;
+  width: 50vw;
+  height: 90vh;
+  border-radius: 50px;
+  background-color: rgb(198, 244, 255);
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.formStyles {
+  /* background-color: black; */
+  display: flex;
+  flex-direction: column;
+  /* height: 50vh; */
+  justify-content: space-evenly;
+}
+
+.header {
+  font-size: 25px;
+  padding: 5px;
+  margin: 10px;
+}
+
+.parag {
+  font-size: 15px;
+  margin-top: 0;
+  margin-bottom: 35px;
+  color: rgb(148, 137, 137);
+}
+
+.fileInput {
+  display: none;
+}
+
+.submitButton {
+  padding: 16.5px 14px;
+}
+
+.signup {
+  margin-left: 3px;
+  color: #3a54aa;
+  cursor: pointer;
+}
+
+.checkB {
+  background-color: rgb(175, 141, 147);
+  padding: 4px;
+  border-radius: 5px;
+  display: flex;
+  margin: 5px;
+  max-height: 50px;
+  width: fit-content;
+  /* height: 40px; */
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.price {
+
+  text-align: center;
+  font-size: 36px;
+  line-height: 48px;
+  font-weight: 900;
+  letter-spacing: 0.7px;
+  color: #22a39f;
+  -webkit-text-stroke: 0.5px black;
+  margin: 0;
+  }
+

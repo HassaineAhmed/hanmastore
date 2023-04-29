@@ -13,3 +13,79 @@ model Test {
     id Int @id @default(autoincrement())
     msg String 
 }
+model ProductType {
+  id       Int       @id @default(autoincrement())
+  name     String
+  fields   Field[]
+  products Product[]
+  @@unique([name])
+}
+
+model Field {
+  id          Int           @id @default(autoincrement())
+  name        String
+  htmlType    String
+  jsType      String
+  productType ProductType[]
+  productData ProductData[]
+  @@unique([name])
+}
+
+model Product {
+  id              Int           @id @default(autoincrement())
+  name            String
+  isAvailable     Boolean       @default(false)
+  colors          Color[]       
+  path            String        @default("")
+  price           Float         @default(0)
+  previous_price  Float         @default(0)
+  howManyPics     Int           @default(3)
+  trending        Boolean       @default(false)
+  productType     ProductType   @relation(fields: [productTypeName], references: [name], onDelete: Cascade)
+  productTypeName String
+  ProductData     ProductData[]
+  orders  Order[]
+  @@unique([name])
+}
+
+model ProductData {
+  id         Int      @id @default(autoincrement())
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId  Int
+  field      Field    @relation(fields: [fieldName], references: [name], onDelete: Cascade)
+  fieldName  String
+  value      dataType @relation(fields: [dataTypeId], references: [id])
+  dataTypeId Int
+  @@unique([fieldName, dataTypeId])
+}
+
+model dataType {
+  id          Int           @id @default(autoincrement())
+  int         Int?
+  string      String?
+  bolean      Boolean?
+  float       Float?
+  productData ProductData[]
+}
+
+model Order {
+  id          Int            @id @default(autoincrement())
+  product   Product @relation(fields: [productName], onDelete: Cascade, references: [name])
+  productName String
+  fullName String
+  phoneNumber Int
+  secondPhoneNumber Int?
+  wilaya String
+  fullAdress String
+  quantity  Int
+  size String
+  color String
+  createdAt  DateTime
+}
+model Color  {
+  id Int @id @default(autoincrement())
+  color String 
+  hexCode String @default("")
+  products Product[]
+  @@unique([color]) 
+}

@@ -3,6 +3,12 @@
   position : absolute;
 
 }
+.category_component{
+     background-repeat: no-repeat;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+    }
 @keyframes slide {
   from {
     transform: translateX(0);

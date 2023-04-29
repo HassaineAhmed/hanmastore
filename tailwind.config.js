@@ -10,13 +10,21 @@ module.exports = {
        fontFamily: {
         bebas_neue: ['var(--font-bebas-neue)'],
         dm_sans: ['var(--font-dm-sans)'],
+        montserrat : ['var(--font-montserrat)'],
+        nunito_sans : ['var(--font-nunito-sans)'],
+        cairo : [ 'var(--font-cairo)'],
       },
       animation : { 
         wiggle : "khtafa 1s ease  alternate", 
         slideIn : "slideIn 1s ease",
         slideOut : "slideOut 7s ease",
+        fadeIn : "fadeIn 1s ease-in-out forwards"
       },
       keyframes : {
+      fadeIn  : { 
+        "0%" : { opacity : 0},
+        "100%" : { opacity : 1},
+      },
       slideIn  : { 
         "0%" : { transform : "translateX(300%)"},
         "100%" : { transform : "translateX(0)"},
