@@ -76,7 +76,7 @@ export default function ProductPage({ productData }: any) {
     }
     return (
       <div
-        className={`font-bebas_neue ${shownPic != index ? "hidden" : ""
+        className={`${shownPic != index && "hidden"
           }`}
       >
         {isLoading && (
