@@ -174,7 +174,7 @@ export default function ProductPage({ productData }: any) {
     <div
       className={`${styles.PhoneNumber} ${showPhoneNumber ? "translate-y-[50vh]" : " "
         }
-          py-4 px-3 left-0 right-0 ml-auto mr-auto relative 
+         bg-white  py-4 px-3 left-0 right-0 ml-auto mr-auto relative 
           `}
     >
       <button onClick={() => setShowPhoneNumber(false)} className="flex justify-start absolute top-[5px] left-[5px] w-[20px] h-[20px]">
@@ -183,7 +183,7 @@ export default function ProductPage({ productData }: any) {
         </svg>
       </button>
       <p className="text-center text-3xl">
-        Call This Number : 0557102363
+        Call This Number : 0778726876
       </p>
     </div>
     { /* nav bar */}

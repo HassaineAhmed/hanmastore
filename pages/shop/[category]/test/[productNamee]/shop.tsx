@@ -23,7 +23,7 @@ export default function Shop() {
                     </svg>
                 </button>
                 <p className="text-center text-3xl">
-                    Call This Number : 0557102363
+                    Call This Number : 0778726876
                 </p>
             </div>
             { /* nav bar */}
