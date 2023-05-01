@@ -114,14 +114,16 @@ export function WelcomingSection({ categories }) {
 }
 export function ProductComponent({ text_color, bg_color, category, productData }) {
   return (
-    <Link href={`/shop/${productData.productTypeName}/test/${productData.name}`}>
+    <Link prefetch={false} href={`/shop/${productData.productTypeName}/test/${productData.name}`}>
       <div className="grid justify-center items-center " data-aos="zoom-in" data-aos-duration="500" data-aos-once="true">
-        <Image src={"/sofaine2.png"} className="mb-1" alt="model" width={3024} height={4032} />
+        <Image src={`/images/${category}s/${productData.name}/1.png`} className="mb-1" alt="model" width={300} height={500} />
         <p className={`${text_color} text-md tracking-tight text-center mb-1`}>{productData.name}</p>
 
         <div className="flex justify-center items-center gap-6">
           <div className={"grid justify-center items-start leading-3"}>
-            <p className="text-gray-500 line-through text-sm  leading-3">2name400 dzd </p>
+            {productData.previous_price != 0 &&
+              <p className="text-gray-500 line-through text-sm  leading-3">{productData.previous_price} DZD</p>
+            }
             <p className={`${text_color} text-xl`}>{productData.price} DZD</p>
           </div>
           <div className="flex items-center justify-center mb-1 gap-[2px]">
@@ -137,7 +139,7 @@ export function TrendingSection({ text_color, trendingProducts, bg_color }) {
       <p className={`text-center ${text_color} text-[60px]`}>TRENDINGS</p>{" "}
       <div className="grid justify-center content-around gap-2 gap-y-3 mx-3 items-center grid-cols-2">
         {trendingProducts.map(product =>
-          <ProductComponent text_color={"text-white"} bg_color={"bg-black"} productData={product} />
+          <ProductComponent category={product.productTypeName}  text_color={"text-white"} bg_color={"bg-black"} productData={product} />
         )}
       </div>
     </div>

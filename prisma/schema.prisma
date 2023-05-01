@@ -8,7 +8,8 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-}
+  relationMode = "prisma"
+  }
 model Test {
     id Int @id @default(autoincrement())
     msg String 
@@ -54,7 +55,7 @@ model ProductData {
   productId  Int
   field      Field    @relation(fields: [fieldName], references: [name], onDelete: Cascade)
   fieldName  String
-  value      dataType @relation(fields: [dataTypeId], references: [id])
+  value      dataType @relation(fields: [dataTypeId], references: [id], onDelete: Cascade)
   dataTypeId Int
   @@unique([fieldName, dataTypeId])
 }

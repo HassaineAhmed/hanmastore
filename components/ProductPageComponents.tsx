@@ -63,29 +63,30 @@ const wilayasList = [
 
 export function BuyForm({
   size,
-  setShowOrderNotification,
-  productData,
-  setBuyForm,
-  setShowSelectSizeNColor,
+  chosenColor,
+  productName,
+  productPrice,
 }) {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [secondPhoneNumber, setSecondPhoneNumber] = useState();
   const [wilaya, setWilaya] = useState("");
   const [fullAddress, setFullAddress] = useState("");
-
+  const [showOrderNotification, setShowOrderNotification] = useState(false)
+  const [quantity, setQuantity] = useState(1)
   async function handleSubmit(event) {
     event.preventDefault();
     const data = {
-      productName: productData.name,
+      productName: productName,
       fullName: name,
       phoneNumber: phoneNumber,
       secondPhoneNumber: secondPhoneNumber ? secondPhoneNumber : 0,
       wilaya: wilaya,
       fullAddress: fullAddress,
-      quantity: value,
+      quantity: quantity,
       size: size,
     };
+    /*
     setTimeout(() => {
       setBuyForm(false);
     }, 500);
@@ -93,12 +94,14 @@ export function BuyForm({
     setTimeout(() => {
       setShowOrderNotification(false);
     }, 6000);
+*/
   }
   const [value, setValue] = useState(1);
   // this concerns handling the quantity
   const NumberInput = ({ defaultValue = 0, onChange }) => {
     const increment = () => {
       const newValue = value + 1;
+      setQuantity(prev => prev + 1)
       setValue(newValue);
       onChange && onChange(newValue);
     };
@@ -107,6 +110,7 @@ export function BuyForm({
       if (value > 1) {
         const newValue = value - 1;
         setValue(newValue);
+        setQuantity(prev => prev > 1 ? prev - 1 : prev)
         onChange && onChange(newValue);
       }
     };
@@ -117,7 +121,7 @@ export function BuyForm({
           <button onClick={decrement}>
             <FaMinus />
           </button>
-          <span className="border-x-2 px-[8px] text-[25px]"> {value} </span>
+          <span className="border-x-2 px-[8px] text-[25px]"> {quantity} </span>
           <button onClick={increment}>
             <FaPlus />
           </button>
@@ -127,7 +131,7 @@ export function BuyForm({
   };
   function SelectListBox({ list, setState, state }) {
     return (
-      <Box sx={{ maxWidth: 200 }}>
+      <Box >
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Wilaya</InputLabel>
 
@@ -155,27 +159,15 @@ export function BuyForm({
   }
 
   return (
-    <div className="w-[94%] h-[97%] top-[5%] left-[3%] rounded-2xl bg-[white] grid items-center justify-center absolute">
-      <div className="absolute top-[15px] left-[15px]">
-        {" "}
-        <button
-          onClick={() => {
-            setShowSelectSizeNColor(false);
-            setBuyForm(false);
-          }}
-        >
-          <CloseIcon sx={{ fontSize: 30 }} />
-        </button>
-      </div>
-
+    <div className=" font-bebas_neue  bg-[#efefef] top-[5%] left-[3%] rounded-2xl bg-[white] grid items-center justify-center ">
       <form
         onSubmit={handleSubmit}
-        className={"grid justify-center items-center gap-3"}
+        className={"grid justify-center w-[100vw] items-center"}
       >
-        <span className="text-[35px]">Complete The Order</span>
-        <div className="grid gap-4 justify-center items-center">
+        <span className="text-[45px] my-5">Complete The Order</span>
+        <div className=" gap-6 grid justify-center items-center">
           <TextField
-            className="my-5 w-[200px] py-[10px] "
+            className="my-5 "
             value={name}
             onChange={(event) => {
               setName(event.target.value);
@@ -188,7 +180,7 @@ export function BuyForm({
             required
           />
           <TextField
-            className="my-5 w-[200px] py-[10px] "
+            className="my-5"
             name={"phoneNumber"}
             value={phoneNumber}
             onChange={(event) => {
@@ -201,7 +193,7 @@ export function BuyForm({
             required
           />
           <TextField
-            className="my-5 w-[200px] py-[10px] "
+            className="my-5"
             name={"secondPhoneNumber"}
             value={secondPhoneNumber}
             onChange={(event) => {
@@ -218,7 +210,7 @@ export function BuyForm({
             state={wilaya}
           />
           <TextField
-            className="my-5 w-[200px] py-[10px] "
+            className="my-5"
             value={fullAddress}
             onChange={(event) => setFullAddress(event.target.value)}
             id={"outlined-basic"}
@@ -229,31 +221,34 @@ export function BuyForm({
             required
           />
         </div>
-        <div className="my-2 flex justify-center items-center gap-3">
+        <div className="my-4 flex justify-center items-center gap-3">
           <span className="text-[20px]">Quantity </span> <NumberInput />
         </div>
-        <div className="grid ">
+        <div className="grid text-2xl justify-center my-5 ">
           {/* <span className="text-[35px]">Price</span> */}
-          <span className="text-[20px]">
-            {productData.name}&apos;s cost : {productData.price} DZD
+          <span className="">
+            {productName}&apos;s cost : {productPrice} DZD
           </span>
-          <span className="text-[20px]">
+          <span className="">
             Delivery cost : {wilaya == "Algiers - 16" ? "400 DZD" : "700 DZD"}
           </span>
-          <span className="text-[20px]">
+          <span className="">
             Total Cost :{" "}
             {wilaya == "Algiers - 16"
-              ? value * parseInt(productData.price) + 400
-              : value * parseInt(productData.price) + 700}{" "}
+              ? quantity * parseInt(productPrice) + 400
+              : quantity * parseInt(productPrice) + 700}{" "}
             DZD
           </span>
         </div>
         <button
-          className={`p-3 m-1 bg-[#22A39F] text-[black] rounded-xl  max-w-[220px] text-[25px] min-w-[200px] justify-self-center`}
+          className="mb-10 w-[100%] flex justify-center"
         >
-          Confirm Order{" "}
+          <div className="w-[80%] bg-black  h-[50px] text-white flex justify-center items-center text-3xl justify-self-center " >
+            Confirm Order
+          </div>
         </button>
       </form>
     </div>
   );
 }
+
