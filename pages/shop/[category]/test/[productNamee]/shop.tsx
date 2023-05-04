@@ -28,7 +28,7 @@ export default function Shop() {
             </div>
             { /* nav bar */}
             <div className={`border-y-[1px] border-gray-300  flex items-center ${styles.header}`}>
-                <Link href={`/`}>
+                <Link href={`/shop/${context.category}/test/${context.productName}/`}>
                     <div className={"w-[32px] h-[32px] flex items-center "}>
                         <Image
                             width={14}
