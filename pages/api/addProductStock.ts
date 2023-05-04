@@ -21,7 +21,7 @@ const upload = multer({
 });
 interface ExtendedRequest {
   files: any;
-  body : any;
+  body: any;
 }
 const handler = nextConnect<ExtendedRequest, NextApiResponse>({
   onError: (err, req, res, next) => {
@@ -44,7 +44,7 @@ const handler = nextConnect<ExtendedRequest, NextApiResponse>({
       const n = `./public/images/${req.body.productType}s/${req.body.name
         }/${k}.${req.files[i].mimetype.split("/")[1]}`;
       if (file.fieldname == "images") {
-        fse.moveSync(old, n, function(err)  {
+        fse.moveSync(old, n, function(err) {
           if (err) {
             console.log("this is the error  ", err);
             throw err;

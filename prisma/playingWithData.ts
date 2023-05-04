@@ -116,10 +116,9 @@ export async function getProductTypeData(name) {
   return data;
 }
 
-export async function createProductStock(formData) {
-  // console.log(formData)
+export async function createProductStock(formData : any) {
   const fields = await getFields();
-  const arr = formData.dataArray.map((element) => {
+  const arr = formData.dataArray.map((element : any) => {
     for (let i in fields) {
       if (fields[i].name == element[0]) {
         return [...element, fields[i].jsType];
