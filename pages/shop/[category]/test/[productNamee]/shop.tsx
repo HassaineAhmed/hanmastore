@@ -50,7 +50,7 @@ export default function Shop() {
                 </button>
             </div>
             <BuyForm
-                size={context.size} chosenColor={context.chosenColor} productPrice={context.chosenPrice} productName={context.productName} />
+                size={context.size} chosenColor={context.chosenColor} productPrice={context.productPrice} productName={context.productName} />
 
         </div>
     )

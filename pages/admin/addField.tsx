@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { DOMAINE_URL } from "../_app"
 export default function AddField() {
-  const [type, setType] = useState();
+  const [type, setType] = useState("");
 
   async function handleSubmit(event : any) {
     event.preventDefault();

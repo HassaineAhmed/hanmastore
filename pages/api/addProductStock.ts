@@ -1,11 +1,12 @@
 import nextConnect from "next-connect";
+import { NextApiRequest, NextApiResponse } from "next";
 import multer from "multer";
 import fse from "fs-extra";
 import { createProductStock } from "../../prisma/playingWithData";
 
 const createFolder = (productType, name) => {
   const destination = `./public/images/${productType}s/${name}`;
-  fse.mkdirSync(destination, {}, function (err) {
+  fse.mkdirSync(destination, {}, function(err) {
     throw err;
   });
 };
@@ -13,19 +14,24 @@ const createFolder = (productType, name) => {
 const upload = multer({
   storage: multer.diskStorage({
     destination: "./public/images/tempr/",
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
       cb(null, file.originalname);
     },
   }),
 });
-
-const handler = nextConnect({
+interface ExtendedRequest {
+  files: any;
+  body : any;
+}
+const handler = nextConnect<ExtendedRequest, NextApiResponse>({
   onError: (err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).end("Something broke!");
+    res.writeHead(500)
+    res.end("Something Broke!");
   },
   onNoMatch: (req, res) => {
-    res.status(404).end("Page is not found");
+    res.writeHead(404)
+    res.end("Page is not found");
   },
 })
   .use(upload.array("images"))
@@ -35,11 +41,10 @@ const handler = nextConnect({
     for (let i = 0, k = 1; i < req.files.length; i++) {
       const file = req.files[i];
       const old = `./public/images/tempr/${file.originalname}`;
-      const n = `./public/images/${req.body.productType}s/${
-        req.body.name
-      }/${k}.${req.files[i].mimetype.split("/")[1]}`;
+      const n = `./public/images/${req.body.productType}s/${req.body.name
+        }/${k}.${req.files[i].mimetype.split("/")[1]}`;
       if (file.fieldname == "images") {
-        fse.moveSync(old, n, function (err) {
+        fse.moveSync(old, n, function(err)  {
           if (err) {
             console.log("this is the error  ", err);
             throw err;

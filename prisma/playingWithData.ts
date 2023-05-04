@@ -1,4 +1,3 @@
-import { color } from "@mui/system";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -190,7 +189,7 @@ export async function updateProductStock(formData) {
     },
   });
 
-  const productDataList = await prisma.product.findUnique({
+  let productDataList = await prisma.product.findUnique({
     where: {
       name: formData.previous_name,
     },
@@ -198,20 +197,22 @@ export async function updateProductStock(formData) {
       ProductData: true,
     },
   });
-  for (let i in productDataList.ProductData) {
-    for (let a in arr) {
-      if (arr[a][0] == productDataList.ProductData[i].fieldName) {
-        const dt = await prisma.dataType.update({
-          where: {
-            id: productDataList.ProductData[i].dataTypeId,
-          },
-          data: {
-            [arr[a][2]]:
-              isNaN(parseInt(arr[a][1])) == true
-                ? arr[a][1]
-                : parseInt(arr[a][1]),
-          },
-        });
+  if (productDataList != null) {
+    for (let i in productDataList.ProductData) {
+      for (let a in arr) {
+        if (arr[a][0] == productDataList.ProductData[i].fieldName) {
+          const dt = await prisma.dataType.update({
+            where: {
+              id: productDataList.ProductData[i].dataTypeId,
+            },
+            data: {
+              [arr[a][2]]:
+                isNaN(parseInt(arr[a][1])) == true
+                  ? arr[a][1]
+                  : parseInt(arr[a][1]),
+            },
+          });
+        }
       }
     }
   }
@@ -270,38 +271,6 @@ export async function getTrendingProductsStocks() {
 }
 
 // create a new Clothe instance stock in the database
-export async function createClotheStock(data) {
-  switch (data.clotheType) {
-    case "hoodie":
-      const hoodie = await prisma.hoodie.create({
-        data: {
-          name: data.name,
-          path: `/images/hoodies/${data.name}`,
-          available: data.available == "on" ? "on" : "off",
-          byOrder: data.byOrder == "on" ? "on" : "off",
-          sSizeCount: parseInt(data.sSizeCount),
-          mSizeCount: parseInt(data.mSizeCount),
-          lSizeCount: parseInt(data.lSizeCount),
-          price: parseInt(data.price),
-          howManyPics: parseInt(data.howManyPics),
-        },
-      });
-      break;
-    case "sweater":
-      const sweater = await prisma.sweater.create({
-        data: {
-          name: data.name,
-          path: `/images/sweaters/${data.name}`,
-          sSizeCount: parseInt(data.sSizeCount),
-          mSizeCount: parseInt(data.mSizeCount),
-          lSizeCount: parseInt(data.lSizeCount),
-          price: parseInt(data.price),
-        },
-      });
-      break;
-  }
-}
-
 export async function updateClotheStock(clotheType, id, changedData) {
   const newData = await prisma[clotheType].update({
     where: {
@@ -312,56 +281,6 @@ export async function updateClotheStock(clotheType, id, changedData) {
   console.log("data is updated succesffuly");
 }
 
-export async function getClotheTypes() {
-  const types = prisma.clothesTypes.findMany();
-  return types;
-}
-export async function getAllProducts() {
-  // const type = await prisma.clothesTypes.create({
-  //     data: {
-  //         type: "hoodie",
-  //         productsFields: {
-  //             create: {
-  //                 fields: { connect: [{ name: "name" }, { name: "price" }, { name: "path" }, { name: "byOrder" }, { name: "available" }, { name: "sSizeCount" }, { name: "mSizeCount" }, { name: "lSizeCount" }] }
-  //             }
-  //         }
-  //     }
-  // })
-
-  // const sdaf = await prisma.clothesTypes.deleteMany()
-  // const sdafd = await prisma.productsFields.deleteMany()
-
-  // const a = await prisma.hoodie.deleteMany({})
-  // const b = await prisma.sweater.deleteMany({})
-  // const k = await prisma.field.deleteMany({})
-
-  // const prodcutsFiedl = await prisma.productsFields.create({
-  //     data: {
-  //         clotheTypeName: 'hoodie415',
-  //         fields: { connect: { name: "name" } }
-  //     },
-  //     include: { fields: true }, // Returns all fields for all posts
-  // })
-  // console.log(prodcutsFiedl)
-  // const category = await prisma.clothesType.create({
-  //     data: {
-  //         type: "hoodie415",
-  //         prodcutsFields: { connect: { clotheTypeName: "hoodie415" } }
-  //     }
-  // })
-
-  const types = await prisma.clothesTypes.findMany();
-  let allProducts = [];
-  async function getProducts(type) {
-    const p = await prisma[type].findMany();
-    return p;
-  }
-  for (let i = 0; i < types.length; i++) {
-    // it will be like this [ [ "the type of clothe", [ array contains the list of producgts of that type]] , ......so on ]
-    allProducts.push([types[i].type, await getProducts(types[i].type)]);
-  }
-  return allProducts;
-}
 export async function getProduct(productType, productName) {
   const product = await prisma[productType].findUnique({
     where: {
@@ -404,24 +323,6 @@ export async function deleteProduct(productType, productName) {
     },
   });
   console.log("product is deleted sucessfully");
-}
-
-export async function getProductData(category, name) {
-  let productData = "404";
-  try {
-    productData = await prisma.Product.findUnique({
-      where: {
-        name: name,
-      },
-    });
-  } catch (e) {
-    return "404";
-  }
-  if (productData == null) {
-    console.log("worked");
-    return "404";
-  }
-  return productData;
 }
 
 export async function createOrder({

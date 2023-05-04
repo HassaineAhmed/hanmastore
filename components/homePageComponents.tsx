@@ -48,8 +48,8 @@ function CategoryOptions({ categories }) {
   { /* <CategoryComponent key={cate.id} name={cate.name} /> */ }
   return (
     <div className="grid gap-4 mx-8 justify-center items-center  ">
-      {categories.map(cate =>
-        <ReactScrollLink to={cate.name} smooth={true}>
+      {categories.map((cate,index) =>
+        <ReactScrollLink key={index} to={cate.name} smooth={true}>
           <div className="rounded-xl bg-black flex justify-center p-4 px-8"> <p className="text-white text-5xl">{cate.name}S</p> </div>
         </ReactScrollLink>
       )}
@@ -138,8 +138,8 @@ export function TrendingSection({ text_color, trendingProducts, bg_color }) {
     <div className={"pt-2 pb-8 bg-black grid justify-center items-center"}>
       <p className={`text-center ${text_color} text-[60px]`}>TRENDINGS</p>{" "}
       <div className="grid justify-center content-around gap-2 gap-y-3 mx-3 items-center grid-cols-2">
-        {trendingProducts.map(product =>
-          <ProductComponent category={product.productTypeName}  text_color={"text-white"} bg_color={"bg-black"} productData={product} />
+        {trendingProducts.map((product, index) =>
+          <ProductComponent key={index} category={product.productTypeName}  text_color={"text-white"} bg_color={"bg-black"} productData={product} />
         )}
       </div>
     </div>
@@ -152,8 +152,8 @@ export function CategorySection({ title, index, category, productList }) {
     <div className={`${bg_color} pb-8 pt-3 grid justify-center items-center`}>
       <p className={`${text_color} text-center text-[60px]`}>{title}</p>{" "}
       <div className="grid justify-center content-around gap-2 gap-y-3 mx-3 items-center grid-cols-2">
-        {productList.map(product =>
-          <ProductComponent text_color={text_color} bg_color={bg_color} category={category} productData={product} />
+        {productList.map((product, index) =>
+          <ProductComponent key={index} text_color={text_color} bg_color={bg_color} category={category} productData={product} />
         )}
       </div>
     </div>

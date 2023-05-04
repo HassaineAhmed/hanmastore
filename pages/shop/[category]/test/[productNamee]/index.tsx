@@ -27,7 +27,7 @@ export default function ProductPage({ productData }: any) {
   function Images() {
     const containerRef = useRef(null);
 
-    let startX, startY, moveX, dist;
+    let startX, startY, moveX, dist, threshold;
     function touchStart(event: any) {
       startX = event.touches[0].clientX;
 
@@ -68,8 +68,11 @@ export default function ProductPage({ productData }: any) {
     }
 
     const [shownPic, setShownPic] = useState(1);
-    const images = [];
-    function ProductImageComponent({ index }) {
+    interface ProductImageComponentProps {
+      index: number,
+      key: number
+    }
+    const ProductImageComponent = ({ index }: ProductImageComponentProps) => {
       const [isLoading, setIsLoading] = useState(true)
 
       const handleLoadingComplete = () => {
@@ -86,11 +89,11 @@ export default function ProductPage({ productData }: any) {
           width={600}
           alt="product Image"
           loading="eager"
-        />      </div>
+        />
+      </div>
     }
-    for (let i = 1; i <= parseInt(productData.howManyPics); i++) {
-      images.push(<ProductImageComponent index={i} key={i} />);
-    }
+    let images: React.FC<ProductImageComponentProps>[] = [];
+    let   howManyPicsArray = Array.from({ length: parseInt(productData.howManyPics) }, (_, index) => index + 1);
     const pictureDots = [];
     function PictureDotComponent({ index }: any) {
       return (
@@ -104,9 +107,6 @@ export default function ProductPage({ productData }: any) {
         </button>
       );
     }
-    for (let i = 1; i <= parseInt(productData.howManyPics); i++) {
-      pictureDots.push(<PictureDotComponent index={i} key={i} />);
-    }
 
     return <div className="grid">
 
@@ -115,7 +115,10 @@ export default function ProductPage({ productData }: any) {
         onTouchMove={touchMove}
         onTouchEnd={touchEnd}
         className={`bg-gray-300`}>
-        {images.map((e) => e)}
+      {howManyPicsArray.map((value, index) => (
+        <ProductImageComponent key={value} index={value} />
+      ))}
+
       </div>
       <div className="pt-4 pb-0">
         <div className="flex justify-between">
@@ -141,7 +144,7 @@ export default function ProductPage({ productData }: any) {
           { /* picture Dots *---- */}
 
           <div className={"flex justify-center gap-2 m-[10px]"}>
-            {pictureDots.map((e) => e)}
+            { howManyPicsArray.map( (value, index) => <PictureDotComponent key={value} index={value} /> ) }
           </div>
           { /* picture Dots *---- */}
 
@@ -287,9 +290,9 @@ export default function ProductPage({ productData }: any) {
                 </div>
                 <div className="flex ml-3 mt-1 gap-4">
 
-                  {productData.colors.map(color => {
-                    console.log(color.hexCode)
+                  {productData.colors.map((color, index) => {
                     return (<button
+                      key={index}
                       onClick={(event) => {
                         setChosenColor(color.hexCode);
                       }}
@@ -325,10 +328,10 @@ export default function ProductPage({ productData }: any) {
               }}
             >
               {chosenColor != "" && size != "" ?
-                <Link className="w-[100%] flex justify-center" href={{ pathname: `/shop/${productData.productTypeName}/test/${productData.name}/shop`, query: { productTypeName : productData.productTypeName, size: size, chosenColor: chosenColor, productPrice: productData.price, productName: productData.name } }} prefetch={false}>
-                <div className="w-[80%] bg-black  h-[50px] text-white flex justify-center items-center text-3xl justify-self-center">
+                <Link className="w-[100%] flex justify-center" href={{ pathname: `/shop/${productData.productTypeName}/test/${productData.name}/shop`, query: { productTypeName: productData.productTypeName, size: size, chosenColor: chosenColor, productPrice: productData.price, productName: productData.name } }} prefetch={false}>
+                  <div className="w-[80%] bg-black  h-[50px] text-white flex justify-center items-center text-3xl justify-self-center">
                     BUY NOW
-                </div>
+                  </div>
                 </Link>
                 :
                 <div className="w-[80%] bg-black  h-[50px] text-white flex justify-center items-center text-3xl justify-self-center " >

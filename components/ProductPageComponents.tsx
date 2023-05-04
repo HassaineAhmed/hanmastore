@@ -67,13 +67,15 @@ export function BuyForm({
   productName,
   productPrice,
 }) {
+  console.log(productPrice);
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [secondPhoneNumber, setSecondPhoneNumber] = useState();
+  const [secondPhoneNumber, setSecondPhoneNumber] = useState("");
   const [wilaya, setWilaya] = useState("");
   const [fullAddress, setFullAddress] = useState("");
   const [showOrderNotification, setShowOrderNotification] = useState(false)
   const [quantity, setQuantity] = useState(1)
+  const [ codePromo, setCodePromo ] = useState("");
   async function handleSubmit(event) {
     event.preventDefault();
     const data = {
@@ -85,6 +87,7 @@ export function BuyForm({
       fullAddress: fullAddress,
       quantity: quantity,
       size: size,
+      codePromo : codePromo
     };
     /*
     setTimeout(() => {
@@ -98,12 +101,12 @@ export function BuyForm({
   }
   const [value, setValue] = useState(1);
   // this concerns handling the quantity
-  const NumberInput = ({ defaultValue = 0, onChange }) => {
+  const NumberInput = () => {
     const increment = () => {
       const newValue = value + 1;
       setQuantity(prev => prev + 1)
       setValue(newValue);
-      onChange && onChange(newValue);
+      //onChange && onChange(newValue);
     };
 
     const decrement = () => {
@@ -111,7 +114,7 @@ export function BuyForm({
         const newValue = value - 1;
         setValue(newValue);
         setQuantity(prev => prev > 1 ? prev - 1 : prev)
-        onChange && onChange(newValue);
+       // onChange && onChange(newValue);
       }
     };
 
@@ -220,6 +223,16 @@ export function BuyForm({
             name={"address"}
             required
           />
+          <TextField
+            className="my-5"
+            value={codePromo}
+            onChange={(event) => setCodePromo(event.target.value)}
+            id={"outlined-basic"}
+            label={"Code Promo ( optional )"}
+            variant="outlined"
+            type={"text"}
+            name={"code_promo"}
+          />
         </div>
         <div className="my-4 flex justify-center items-center gap-3">
           <span className="text-[20px]">Quantity </span> <NumberInput />
@@ -237,7 +250,7 @@ export function BuyForm({
             {wilaya == "Algiers - 16"
               ? quantity * parseInt(productPrice) + 400
               : quantity * parseInt(productPrice) + 700}{" "}
-            DZD
+             DZD
           </span>
         </div>
         <button

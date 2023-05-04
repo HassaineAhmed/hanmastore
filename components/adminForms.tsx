@@ -11,7 +11,7 @@ import styles from "../styles/adminPage.module.css"
 import { DOMAINE_URL } from "../pages/_app";
 
 
-function CheckBoxField({ name, checked } : any) {
+function CheckBoxField({ name, checked }: any) {
   return (
     <div className={`${styles.checkB} `}>
       <p className="ml-3 text-white peer-hover:text-black">{name}</p>
@@ -31,8 +31,8 @@ export function SelectProductType({
   possibleProductsTypes,
   setChosenProductType,
   setChosenProductTypeData,
-} : any) {
-  const handleSelectChange = async (event : any) => {
+}: any) {
+  const handleSelectChange = async (event: any) => {
     await fetch(`http://${DOMAINE_URL}/api/getProductTypeData`, {
       method: "POST",
       body: JSON.stringify({ name: event.target.value }),
@@ -70,19 +70,25 @@ export function SelectProductType({
 export function AddProductStockFrom({
   chosenProductType,
   chosenProductTypeData,
-} : any) {
-  async function handleSubmit(event : any) {
+}: any) {
+  async function handleSubmit(event: any) {
     event.preventDefault();
     const form = new FormData(event.target);
 
     // this for loop is here to just handle checkboxes when they are not checked and add them to formData because it wont do it by itself.
     for (let i in CheckBoxNames) {
       let found = false;
-      for (const pair of form.entries()) {
-        if (pair[0] == CheckBoxNames[i]) {
+      Array.from(form.entries()).forEach(([key, value]) => {
+        if (key == CheckBoxNames[i]) {
           found = true;
         }
       }
+      );
+      //  for (const pair of form.entries()) {
+      //    if (pair[0] == CheckBoxNames[i]) {
+      //      found = true;
+      //    }
+      //  }
       if (found == false) {
         form.append(CheckBoxNames[i], "off");
       }
@@ -139,7 +145,7 @@ export function AddProductStockFrom({
   ];
   let ButtonFields = [];
 
-  chosenProductTypeData.fields.map((field : any, index : any) => {
+  chosenProductTypeData.fields.map((field: any, index: any) => {
     if (field.htmlType == "text") {
       TextFields.push(
         <TextField
@@ -191,9 +197,9 @@ export function MainForm({
   ButtonFields,
   handler,
   FileFields,
-} : any) {
-  const [chosenColor , setChosenColor ] = useState("")
-  const [chosenColorsList, setChosenColorsList ] = useState([])
+}: any) {
+  const [chosenColor, setChosenColor] = useState("")
+  const [chosenColorsList, setChosenColorsList] = useState([])
   return (
     <form onSubmit={handler}>
       <div className="grid items-center justify-center gap-4">
@@ -221,7 +227,7 @@ export function MainForm({
   );
 }
 
-export function ProductTypeForm({ isEdit, productsTypesData, fields} : any) {
+export function ProductTypeForm({ isEdit, productsTypesData, fields }: any) {
   // const [type, setType] = useState("")
   const [chosenFields, setChosenFields] = useState([]);
   const [chosenProductType, setChosenProductType] = useState("");
@@ -292,7 +298,7 @@ export function SelectProductType2({
   possibleProductsTypes,
   setChosenProductType,
   setChosenProductTypeData,
-} : any) {
+}: any) {
   const handleSelectChange = (event) => {
     setChosenProductType(event.target.value);
     for (let i in possibleProductsTypes) {
@@ -336,11 +342,11 @@ function EditForm({
   fields,
   chosenFields,
   setChosenFields,
-} : any) {
+}: any) {
   const [nameValue, setNameValue] = useState(chosenProductType);
-  const oldFields = chosenProductTypeData.fields.map((field : any) => field.name);
-  const [chosenColor , setChosenColor ] = useState()
-  const [chosenColorsList, setChosenColorsList ] = useState([])
+  const oldFields = chosenProductTypeData.fields.map((field: any) => field.name);
+  const [chosenColor, setChosenColor] = useState()
+  const [chosenColorsList, setChosenColorsList] = useState([])
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -407,44 +413,44 @@ function EditForm({
               id={"outlined-basic"}
               label={"name"}
               variant="outlined"
-             type={"text"}
+              type={"text"}
               name={"name"}
               required
             />
           )}
         </div>
         <div className=" grid justify-center items-center gap-8">
-        <div className="grow-0 max-w-[300px]">
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Type</InputLabel>
-              <Select
-                name={"selectType"}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={fieldType}
-                onChange={(event) => {
-                  setFieldType(event.target.value);
-                  setChosenFields((prev) => [
-                    ...prev.filter((i) =>
-                      i == event.target.value ? false : true
-                    ),
-                    event.target.value,
-                  ]);
-                }}
-                label="Age"
-              >
-                {fields.map((field, i) => {
-                  return (
-                    <MenuItem key={i} value={field.name}>
-                      {field.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </Box>
-        </div>
+          <div className="grow-0 max-w-[300px]">
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                <Select
+                  name={"selectType"}
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={fieldType}
+                  onChange={(event) => {
+                    setFieldType(event.target.value);
+                    setChosenFields((prev) => [
+                      ...prev.filter((i) =>
+                        i == event.target.value ? false : true
+                      ),
+                      event.target.value,
+                    ]);
+                  }}
+                  label="Age"
+                >
+                  {fields.map((field, i) => {
+                    return (
+                      <MenuItem key={i} value={field.name}>
+                        {field.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Box>
+          </div>
         </div>
         <div className="flex items-center justify-center">
           {chosenFields.map((type, index) => {
@@ -491,6 +497,15 @@ function EditForm({
 export function EditProductStockFrom({ chosenProductStockData }) {
   const [name, setName] = useState(chosenProductStockData.name);
   const [price, setPrice] = useState(chosenProductStockData.price);
+  const [initialValues, setInitialValues] = useState({})
+  chosenProductStockData.ProductData.forEach(
+    (element, index) => {
+      const field = element.field;
+      setInitialValues(prev => { return { ...prev, [element.name]: element.value[field.jsType] } })
+    }
+
+  )
+
   async function handleDelete(event) {
     event.preventDefault();
     await fetch(`http://${DOMAINE_URL}/api/deleteProductStock`, {
@@ -514,11 +529,12 @@ export function EditProductStockFrom({ chosenProductStockData }) {
     // this for loop is here to just handle checkboxes when they are not checked and add them to formData because it wont do it by itself.
     for (let i in CheckBoxNames) {
       let found = false;
-      for (const pair of form.entries()) {
-        if (pair[0] == CheckBoxNames[i]) {
+      Array.from(form.entries()).forEach(([key, value]) => {
+        if (key == CheckBoxNames[i]) {
           found = true;
         }
       }
+      );
       if (found == false) {
         form.append(CheckBoxNames[i], "off");
       }
@@ -552,7 +568,7 @@ export function EditProductStockFrom({ chosenProductStockData }) {
   let NumberFields = [
     <TextField
       value={price}
-     onChange={(event) => setPrice(event.target.value)}
+      onChange={(event) => setPrice(event.target.value)}
       key={"price"}
       name={"price"}
       id={"outlined-basic"}
@@ -601,11 +617,12 @@ export function EditProductStockFrom({ chosenProductStockData }) {
       Delete Product
     </button>,
   ];
+
   chosenProductStockData.ProductData.map((element, index) => {
     const field = element.field;
-    const [initialValue, setInitialValue] = useState(
-      element.value[field.jsType]
-    );
+    // const [initialValue, setInitialValue] = useState(
+    //  element.value[field.jsType]
+    // );
 
     if (field.htmlType == "text") {
       TextFields.push(
@@ -616,10 +633,11 @@ export function EditProductStockFrom({ chosenProductStockData }) {
           label={field.name}
           variant={"outlined"}
           type={field.htmlType}
-          value={initialValue}
+          value={initialValues[element.name]}
           onChange={(event) => {
-            setInitialValue(event.target.value);
-          }}
+            setInitialValues(prev => { return { ...prev, [element.name]: event.target.value } });
+          }
+          }
         />
       );
     } else if (field.htmlType == "number") {
@@ -631,17 +649,18 @@ export function EditProductStockFrom({ chosenProductStockData }) {
           label={field.name}
           variant={"outlined"}
           type={field.htmlType}
-          value={initialValue}
+          value={initialValues[element.name]}
           onChange={(event) => {
-            setInitialValue(event.target.value);
-          }}
+            setInitialValues(prev => { return { ...prev, [element.name]: event.target.value } });
+          }
+          }
         />
       );
     } else if (field.htmlType == "checkbox") {
       CheckBoxNames.push(field.name);
 
       CheckBoxFields.push(
-        <CheckBoxField key={index} name={field.name} checked={initialValue} />
+        <CheckBoxField key={index} name={field.name} checked={initialValues[element.name]} />
       );
     } else if (field.htmlType == "image") {
       FileFields.push(

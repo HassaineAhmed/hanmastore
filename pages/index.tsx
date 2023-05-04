@@ -10,9 +10,8 @@ export default function Home({ products, categories, trendingProducts }) {
       <WelcomingSection categories={categories} />
       <TrendingSection text_color={"text-white"} bg_color={"bg-black"} trendingProducts={trendingProducts} />
       {categories.map((cate, index) => {
-        const productList = products.filter( pr =>  pr.productTypeName == cate.name)
-        return <Element name={cate.name}> <CategorySection title={`${cate.name}s`} index={index} category={cate.name} productList={productList} /> </Element>
-        return <h1>hello </h1>
+        const productList = products.filter(pr => pr.productTypeName == cate.name)
+        return <Element name={cate.name} key={index}> <CategorySection title={`${cate.name}s`} index={index} category={cate.name} productList={productList} /> </Element>
       }
       )
       }
