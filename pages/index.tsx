@@ -1,4 +1,4 @@
-import { Header, HeroSection, CategorySection, WelcomingSection, Footer, TrendingSection } from "../components/homePageComponents";
+import { Header, HeroSection, InfluenceursSection, CategorySection, WelcomingSection, Footer, TrendingSection } from "../components/homePageComponents";
 import { getProductsStocks, getTrendingProductsStocks } from "../prisma/playingWithData";
 import { getProductsTypes } from "../prisma/playingWithData"
 import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
@@ -15,6 +15,7 @@ export default function Home({ products, categories, trendingProducts }) {
       }
       )
       }
+      <InfluenceursSection />
       <Footer />
     </div>
   );

@@ -4,7 +4,7 @@ import styles from "../styles/homePage.module.css";
 import AOS from "aos"
 import 'aos/dist/aos.css';
 import Link from "next/link";
-import { Link as ReactScrollLink } from "react-scroll"
+import { Link as ReactScrollLink, Element } from "react-scroll"
 
 export function Header() {
   const [switchText, setSwitchText] = useState(0);
@@ -50,9 +50,12 @@ export function HeroSection() {
       <div className="absolute top-[60%] left-0 grid justify-center gap-5">
         <div className="grid gap-1 text-white ml-5">
           <p className="text-4xl">style better lift more</p>
-          <p className="text-lg font-nunito_sans">Flex what you've built with our exclusive and comfortable fits</p>
+          <p className="text-lg font-nunito_sans">Flex what you&apos;ve built with our exclusive and comfortable fits</p>
         </div>
-        <button className="mx-3 bg-white text-black text-3xl rounded-xl py-2">start shoping now</button>
+
+        <ReactScrollLink className="w-[100%] flex justify-center" to={"TrendingSection"} smooth={true}>
+          <button className="mx-3 bg-white px-9 py-2 w-[90%]  text-black text-3xl rounded-xl py-2">start shoping now</button>
+        </ReactScrollLink>
       </div>
     </div>
   );
@@ -159,15 +162,17 @@ export function ProductComponent({ text_color, bg_color, category, productData }
 }
 export function TrendingSection({ text_color, trendingProducts, bg_color }) {
   return (
-    <div className={"pt-2 pb-8 bg-white grid justify-center items-center"}>
-      <div className=" w-[90%] justify-self-center border-solid border-[black] border-t-2 pt-3 border-black" > </div>
-      <p className={`text-center text-black text-[60px]`}>TRENDINGS</p>{" "}
-      <div className="grid justify-center content-around gap-2 gap-y-3 mx-3 items-center grid-cols-2">
-        {trendingProducts.map((product, index) =>
-          <ProductComponent key={index} category={product.productTypeName} text_color={"text-white"} bg_color={"bg-black"} productData={product} />
-        )}
+    <Element name="TrendingSection" className="">
+      <div className={"pt-2 pb-8 bg-white grid justify-center items-center"}>
+        <div className=" w-[90%] justify-self-center border-solid border-[black] border-t-2 pt-3 border-black" > </div>
+        <p className={`text-center text-black text-[60px]`}>TRENDINGS</p>{" "}
+        <div className="grid justify-center content-around gap-2 gap-y-3 mx-3 items-center grid-cols-2">
+          {trendingProducts.map((product, index) =>
+            <ProductComponent key={index} category={product.productTypeName} text_color={"text-white"} bg_color={"bg-black"} productData={product} />
+          )}
+        </div>
       </div>
-    </div>
+    </Element>
   );
 }
 export function CategorySection({ title, index, category, productList }) {
@@ -175,7 +180,7 @@ export function CategorySection({ title, index, category, productList }) {
   const bg_color = index % 2 != 0 ? "bg-white" : "bg-white"
   return (
     <div className={`${bg_color} pb-8 pt-3 grid justify-center items-center`}>
-        <div className=" w-[90%] justify-self-center border-solid border-[black] border-t-2 pt-3 border-black" > </div>
+      <div className=" w-[90%] justify-self-center border-solid border-[black] border-t-2 pt-3 border-black" > </div>
       <p className={`${text_color} text-center text-[60px]`}>{title}</p>{" "}
       <div className="grid justify-center content-around gap-2 gap-y-3 mx-3 items-center grid-cols-2">
         {productList.map((product, index) =>
@@ -185,7 +190,10 @@ export function CategorySection({ title, index, category, productList }) {
     </div>
   )
 }
-
+export function InfluenceursSection() {
+  return (<div className="grid-template-2cols">
+  </div>);
+}
 export function Footer() {
   return <div className="bg-black gap-7 grid justify-stretch items-center py-4
     w-full">
