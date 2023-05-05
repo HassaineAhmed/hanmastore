@@ -45,7 +45,7 @@ export function HeroSection() {
           Your browser does not support the video tag.
         </video>
       </div>
-      <div className="absolute top-[60%] left-0 grid justify-center gap-5">
+      <div className="absolute top-[70%] left-0 grid justify-center gap-5">
         <div className="grid gap-1 text-white ml-5">
           <p className="text-4xl">style better lift more</p>
           <p className="text-lg font-nunito_sans">Flex what you&apos;ve built with our exclusive and comfortable fits</p>
