@@ -12,7 +12,7 @@ export default function Shop() {
     return (
         <div className="grid font-bebas_neue ">
             <div
-                className={`${styles.PhoneNumber} ${showPhoneNumber ? "translate-y-[50vh]" : " "
+                className={`${styles.PhoneNumber} ${showPhoneNumber ? "translate-y-[50vh]" : " opacity-0"
                     }
           bg-white py-4 px-3 left-0 right-0 ml-auto mr-auto relative 
           `}

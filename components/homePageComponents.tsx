@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "../styles/homePage.module.css";
 import AOS from "aos"
@@ -27,9 +27,33 @@ export function Header() {
   );
 }
 export function HeroSection() {
+  const videoRef = useRef(null);
+  useEffect(() => {
+    videoRef.current != null && videoRef.current.play();
+  }, []);
   return (
     <div className="flex justify-center items-center">
-      <Image alt="home page image" className="w-[100%]" src={"/homePageImage.png"} width={390} height={500} />{" "}
+      <div className={styles.videoContainer}>
+        <div className={styles.videoPreloader}></div>
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          controls={false}
+          loop
+          className={styles.videoObject}
+        >
+          <source src="/video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div className="absolute top-[60%] left-0 grid justify-center gap-5">
+        <div className="grid gap-1 text-white ml-5">
+          <p className="text-4xl">style better lift more</p>
+          <p className="text-lg font-nunito_sans">Flex what you've built with our exclusive and comfortable fits</p>
+        </div>
+        <button className="mx-3 bg-white text-black text-3xl rounded-xl py-2">start shoping now</button>
+      </div>
     </div>
   );
 }
@@ -48,7 +72,7 @@ function CategoryOptions({ categories }) {
   { /* <CategoryComponent key={cate.id} name={cate.name} /> */ }
   return (
     <div className="grid gap-4 mx-8 justify-center items-center  ">
-      {categories.map((cate,index) =>
+      {categories.map((cate, index) =>
         <ReactScrollLink key={index} to={cate.name} smooth={true}>
           <div className="rounded-xl bg-black flex justify-center p-4 px-8"> <p className="text-white text-5xl">{cate.name}S</p> </div>
         </ReactScrollLink>
@@ -117,14 +141,14 @@ export function ProductComponent({ text_color, bg_color, category, productData }
     <Link prefetch={false} href={`/shop/${productData.productTypeName}/test/${productData.name}`}>
       <div className="grid justify-center items-center " data-aos="zoom-in" data-aos-duration="500" data-aos-once="true">
         <Image src={`/images/${category}s/${productData.name}/1.png`} className="mb-1" alt="model" width={300} height={500} />
-        <p className={`${text_color} text-md tracking-tight text-center mb-1`}>{productData.name}</p>
+        <p className={`text-black text-md tracking-tight text-center mb-1`}>{productData.name}</p>
 
         <div className="flex justify-center items-center gap-6">
           <div className={"grid justify-center items-start leading-3"}>
             {productData.previous_price != 0 &&
               <p className="text-gray-500 line-through text-sm  leading-3">{productData.previous_price} DZD</p>
             }
-            <p className={`${text_color} text-xl`}>{productData.price} DZD</p>
+            <p className={`text-black text-xl`}>{productData.price} DZD</p>
           </div>
           <div className="flex items-center justify-center mb-1 gap-[2px]">
             <div className="bg-white border-[2px] border-[#686D76] p-[11px]" />
@@ -135,21 +159,23 @@ export function ProductComponent({ text_color, bg_color, category, productData }
 }
 export function TrendingSection({ text_color, trendingProducts, bg_color }) {
   return (
-    <div className={"pt-2 pb-8 bg-black grid justify-center items-center"}>
-      <p className={`text-center ${text_color} text-[60px]`}>TRENDINGS</p>{" "}
+    <div className={"pt-2 pb-8 bg-white grid justify-center items-center"}>
+      <div className=" w-[90%] justify-self-center border-solid border-[black] border-t-2 pt-3 border-black" > </div>
+      <p className={`text-center text-black text-[60px]`}>TRENDINGS</p>{" "}
       <div className="grid justify-center content-around gap-2 gap-y-3 mx-3 items-center grid-cols-2">
         {trendingProducts.map((product, index) =>
-          <ProductComponent key={index} category={product.productTypeName}  text_color={"text-white"} bg_color={"bg-black"} productData={product} />
+          <ProductComponent key={index} category={product.productTypeName} text_color={"text-white"} bg_color={"bg-black"} productData={product} />
         )}
       </div>
     </div>
   );
 }
 export function CategorySection({ title, index, category, productList }) {
-  const text_color = index % 2 == 0 ? "text-black" : "text-white"
-  const bg_color = index % 2 != 0 ? "bg-black" : "bg-white"
+  const text_color = index % 2 == 0 ? "text-black" : "text-black"
+  const bg_color = index % 2 != 0 ? "bg-white" : "bg-white"
   return (
     <div className={`${bg_color} pb-8 pt-3 grid justify-center items-center`}>
+        <div className=" w-[90%] justify-self-center border-solid border-[black] border-t-2 pt-3 border-black" > </div>
       <p className={`${text_color} text-center text-[60px]`}>{title}</p>{" "}
       <div className="grid justify-center content-around gap-2 gap-y-3 mx-3 items-center grid-cols-2">
         {productList.map((product, index) =>
@@ -185,8 +211,8 @@ export function Footer() {
     </div>
     <form onSubmit={(event) => console.log(event.target)} className="grid justify-center items-center justify-self-center" >
       <div className="grid justify-center items-center">
-        <p className="font-dm_sans text-white text-2xl">Join our family for free :</p>
-        <input type="email" placeholder="type your email" className="p-5 border-b-2 border-white focus:outline-none text-white bg-black" />
+        <p className="font-dm_sans text-white text-2xl text-[600] text-center mt-4">Join our family, and get notified about every discount</p>
+        <input type="email" placeholder="type your email" className="p-5 mx-8 mt-4 border-b-2 border-white focus:outline-none text-white bg-black" />
       </div>
     </form>
 

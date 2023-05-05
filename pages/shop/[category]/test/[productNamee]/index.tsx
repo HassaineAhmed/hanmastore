@@ -175,7 +175,7 @@ export default function ProductPage({ productData }: any) {
   }
   return <div className="font-bebas_neue bg-[#efefef]">
     <div
-      className={`${styles.PhoneNumber} ${showPhoneNumber ? "translate-y-[50vh]" : " "
+      className={`${styles.PhoneNumber} ${showPhoneNumber ? "translate-y-[50vh]" : "opacity-0 "
         }
          bg-white  py-4 px-3 left-0 right-0 ml-auto mr-auto relative 
           `}
@@ -330,12 +330,12 @@ export default function ProductPage({ productData }: any) {
               {chosenColor != "" && size != "" ?
                 <Link className="w-[100%] flex justify-center" href={{ pathname: `/shop/${productData.productTypeName}/test/${productData.name}/shop`, query: { productTypeName: productData.productTypeName, size: size, chosenColor: chosenColor, productPrice: productData.price, productName: productData.name } }} prefetch={false}>
                   <div className="w-[80%] bg-black  h-[50px] text-white flex justify-center items-center text-3xl justify-self-center">
-                    BUY NOW
+                    Order NOW
                   </div>
                 </Link>
                 :
                 <div className="w-[80%] bg-black  h-[50px] text-white flex justify-center items-center text-3xl justify-self-center " >
-                  BUY NOW
+                  Order NOW
                 </div>
               }
             </button>
@@ -343,6 +343,7 @@ export default function ProductPage({ productData }: any) {
               <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">MATERIAL: </span> 100% Coton. </p>
               <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">FIT: </span> OverSize </p>
               <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">DESIGN: </span> a pic of hanma yujiro standing and a quote on the back </p>
+              <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">Models IG: </span> @mehdi.dz @sofain.dz </p>
             </div>
             { /* End of the color and size section */}
             { /*  End of the color and size section
