@@ -27,10 +27,8 @@ export function Header() {
   );
 }
 export function HeroSection() {
+
   const videoRef = useRef(null);
-  useEffect(() => {
-    videoRef.current != null && videoRef.current.play();
-  }, []);
   return (
     <div className="flex justify-center items-center">
       <div className={styles.videoContainer}>
