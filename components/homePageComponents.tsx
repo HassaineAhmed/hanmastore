@@ -66,7 +66,7 @@ function CategoryOptions({ categories }) {
   function CategoryComponent({ name }) {
     return (
       <div className={`${styles.category_component} px-8  rounded-sm min-h-[100px] rounded-xl  bg-[url('../public/abc.png')] flex justify-center items-center`} data-aos="zoom-in" data-aos-duration="1000" data-aos-once="true">
-        <p className="text-black text-[35px] ml-20 tracking-tight">{name}</p>
+        <p className="text-black text-[32px] ml-20 tracking-tight">{name}</p>
       </div>
     );
   }
@@ -142,7 +142,7 @@ export function ProductComponent({ text_color, bg_color, category, productData }
     <Link prefetch={false} href={`/shop/${productData.productTypeName}/test/${productData.name}`}>
       <div className="grid justify-center items-center " data-aos="zoom-in" data-aos-duration="500" data-aos-once="true">
         <Image src={`/images/${category}s/${productData.name}/1.png`} className="mb-1" alt="model" width={300} height={500} />
-        <p className={`text-black text-md tracking-tight text-center mb-1`}>{productData.name}</p>
+        <p className={`text-black text-sm tracking-normal text-center mb-1`}>{productData.name}</p>
 
         <div className="flex justify-center items-center gap-6">
           <div className={"grid justify-center items-start leading-3"}>

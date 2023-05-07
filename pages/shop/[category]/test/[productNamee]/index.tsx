@@ -5,12 +5,10 @@ import Image from "next/image";
 import styles from "../../../../../styles/productPage.module.css"
 import { BuyForm } from "../../../../../components/ProductPageComponents";
 import { getProductStockData, getProductsStocks, getProductsTypesWithOutFields } from "../../../../../prisma/playingWithData"
-
 export default function ProductPage({ productData }: any) {
+
   // handle swiping : 
   const containerRef = useRef(null);
-
-
   const router = useRouter();
   const category = router.query.category;
   const productName = router.query.product;
@@ -93,7 +91,7 @@ export default function ProductPage({ productData }: any) {
       </div>
     }
     let images: React.FC<ProductImageComponentProps>[] = [];
-    let   howManyPicsArray = Array.from({ length: parseInt(productData.howManyPics) }, (_, index) => index + 1);
+    let howManyPicsArray = Array.from({ length: parseInt(productData.howManyPics) }, (_, index) => index + 1);
     const pictureDots = [];
     function PictureDotComponent({ index }: any) {
       return (
@@ -115,9 +113,9 @@ export default function ProductPage({ productData }: any) {
         onTouchMove={touchMove}
         onTouchEnd={touchEnd}
         className={`bg-gray-300`}>
-      {howManyPicsArray.map((value, index) => (
-        <ProductImageComponent key={value} index={value} />
-      ))}
+        {howManyPicsArray.map((value, index) => (
+          <ProductImageComponent key={value} index={value} />
+        ))}
 
       </div>
       <div className="pt-4 pb-0">
@@ -144,7 +142,7 @@ export default function ProductPage({ productData }: any) {
           { /* picture Dots *---- */}
 
           <div className={"flex justify-center gap-2 m-[10px]"}>
-            { howManyPicsArray.map( (value, index) => <PictureDotComponent key={value} index={value} /> ) }
+            {howManyPicsArray.map((value, index) => <PictureDotComponent key={value} index={value} />)}
           </div>
           { /* picture Dots *---- */}
 
@@ -236,6 +234,7 @@ export default function ProductPage({ productData }: any) {
         </div>
 
         { /* Size and Color Section */}
+
         <div className="w-[85%] gap-3 grid items-center justify-self-center">
           <div className="grid gap-5" >
             <div className="grid gap-3 border-y-[1px] border-[#cfcfcf] py-4">
@@ -284,34 +283,12 @@ export default function ProductPage({ productData }: any) {
                   </div>
                 </div>
               </div>
-              <div className="grid">
-                <div className="flex flex-1 justify-start">
-                  <p className="text-xl ">Color : </p>
-                </div>
-                <div className="flex ml-3 mt-1 gap-4">
-
-                  {productData.colors.map((color, index) => {
-                    return (<button
-                      key={index}
-                      onClick={(event) => {
-                        setChosenColor(color.hexCode);
-                      }}
-                      className={`border-gray-400 h-[46px] w-[46px] bg-[${color.hexCode}] ${chosenColor == color.hexCode
-                        ? "border-[2px] scale-125 ease-in duration-55 border-gray-400"
-                        : ""
-                        }`}
-                    >
-                    </button>)
-                  }
-                  )}
-                </div>
-              </div>
-              {(chosenColor == "" || size == "") &&
+              {(size == "") &&
                 <p
                   className={`${showSelectSizeNColor == false ? "hidden" : " "
                     } text-[red]`}
                 >
-                  Select a size and a color please
+                  Select a size please
                 </p>
               }
             </div>
@@ -327,7 +304,7 @@ export default function ProductPage({ productData }: any) {
                 }
               }}
             >
-              {chosenColor != "" && size != "" ?
+              { size != "" ?
                 <Link className="w-[100%] flex justify-center" href={{ pathname: `/shop/${productData.productTypeName}/test/${productData.name}/shop`, query: { productTypeName: productData.productTypeName, size: size, chosenColor: chosenColor, productPrice: productData.price, productName: productData.name } }} prefetch={false}>
                   <div className="w-[80%] bg-black  h-[50px] text-white flex justify-center items-center text-3xl justify-self-center">
                     Order NOW
@@ -357,6 +334,13 @@ export default function ProductPage({ productData }: any) {
   </div >
 
 }
+/* 
+export async function generateStaticParams() {
+  const products = await getProductsStocks();
+  return products.map(product => { return { category: product.productTypeName, productName: product.name } });
+}
+*/
+
 export async function getServerSideProps(context: any) {
   const category = context.params.category;
   const product = context.params.productNamee;
