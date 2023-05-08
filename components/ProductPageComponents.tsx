@@ -84,7 +84,7 @@ export function BuyForm({
         : setPrice(quantity * parseInt(productPrice) + 700)
     }
   }
-    , [wilaya, quantity])
+    , [wilaya, quantity, productPrice])
   async function handleSubmit(event) {
     event.preventDefault();
     console.log("clicked")
