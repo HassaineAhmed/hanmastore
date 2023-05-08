@@ -323,7 +323,7 @@ export async function deleteProduct(productType, productName) {
   });
   console.log("product is deleted sucessfully");
 }
-
+/*
 export async function createOrder({
   productName,
   fullName,
@@ -352,3 +352,4 @@ export async function createOrder({
     },
   });
 }
+*/
