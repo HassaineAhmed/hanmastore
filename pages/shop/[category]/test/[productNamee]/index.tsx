@@ -78,7 +78,7 @@ export default function ProductPage({ productData }: any) {
         className={`font-bebas_neue ${shownPic != index ? "hidden" : ""
           }`}
       >
-        <img
+        <Image
           src={`${productData.path}/${index}.png`}
           height={400}
           width={600}
