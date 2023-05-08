@@ -333,7 +333,6 @@ export async function createOrder({
   fullAddress,
   quantity,
   size,
-  codePromo,
   price,
 }) {
   const order = await prisma.order.create({
@@ -347,9 +346,9 @@ export async function createOrder({
       quantity: parseInt(quantity),
       size: size,
       color: "",
-      codePromo: codePromo,
       price: price,
       createdAt: new Date(),
+      codePromo : "",
     },
   });
 }
