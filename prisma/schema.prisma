@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,54 +15,48 @@ model Test {
 
 model ProductType {
   id       Int       @id @default(autoincrement())
-  name     String
+  name     String    @unique
   fields   Field[]
   products Product[]
-
-  @@unique([name])
 }
 
 model Field {
   id          Int           @id @default(autoincrement())
-  name        String
+  name        String        @unique
   htmlType    String
   jsType      String
   productType ProductType[]
   productData ProductData[]
-
-  @@unique([name])
 }
 
 model Product {
   id              Int           @id @default(autoincrement())
-  name            String
+  name            String        @unique
   isAvailable     Boolean       @default(false)
-  colors          Color[]
   path            String        @default("")
   price           Float         @default(0)
   previous_price  Float         @default(0)
   howManyPics     Int           @default(3)
   trending        Boolean       @default(false)
-  productType     ProductType   @relation(fields: [productTypeName], references: [name], onDelete: Cascade)
   productTypeName String
+  design          String        @default("")
+  fit             String        @default("")
+  material        String        @default("")
+  model           String        @default("")
+  colors          Color[]
+  productType     ProductType   @relation(fields: [productTypeName], references: [name], onDelete: Cascade)
   ProductData     ProductData[]
   orders          Order[]
-  material        String        @default("")
-  fit             String        @default("")
-  design          String        @default("")
-  model           String        @default("")
-
-  @@unique([name])
 }
 
 model ProductData {
   id         Int      @id @default(autoincrement())
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId  Int
-  field      Field    @relation(fields: [fieldName], references: [name], onDelete: Cascade)
   fieldName  String
-  value      dataType @relation(fields: [dataTypeId], references: [id], onDelete: Cascade)
   dataTypeId Int
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  field      Field    @relation(fields: [fieldName], references: [name], onDelete: Cascade)
+  value      dataType @relation(fields: [dataTypeId], references: [id], onDelete: Cascade)
 
   @@unique([fieldName, dataTypeId])
 }
@@ -81,7 +72,6 @@ model dataType {
 
 model Order {
   id                Int      @id @default(autoincrement())
-  product           Product  @relation(fields: [productName], onDelete: Cascade, references: [name])
   productName       String
   fullName          String
   phoneNumber       Int
@@ -91,16 +81,33 @@ model Order {
   quantity          Int
   size              String
   color             String?
+  createdAt         DateTime
   codePromo         String
   price             Int
-  createdAt         DateTime
+  product           Product  @relation(fields: [productName], references: [name], onDelete: Cascade)
 }
 
 model Color {
   id       Int       @id @default(autoincrement())
-  color    String
+  color    String    @unique
   hexCode  String    @default("")
   products Product[]
+}
 
-  @@unique([color])
+model ColorToProduct {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_ColorToProduct_AB_unique")
+  @@index([B], map: "_ColorToProduct_B_index")
+  @@map("_ColorToProduct")
+}
+
+model FieldToProductType {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_FieldToProductType_AB_unique")
+  @@index([B], map: "_FieldToProductType_B_index")
+  @@map("_FieldToProductType")
 }
