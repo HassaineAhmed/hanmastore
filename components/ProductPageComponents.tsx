@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
@@ -75,9 +75,19 @@ export function BuyForm({
   const [fullAddress, setFullAddress] = useState("");
   const [showOrderNotification, setShowOrderNotification] = useState(false)
   const [quantity, setQuantity] = useState(1)
-  const [ codePromo, setCodePromo ] = useState("");
+  const [codePromo, setCodePromo] = useState("");
+  const [price, setPrice] = useState(0);
+  useEffect(() => {
+    {
+      wilaya == "Algiers - 16"
+        ? setPrice(quantity * parseInt(productPrice) + 400)
+        : setPrice(quantity * parseInt(productPrice) + 700)
+    }
+  }
+    , [wilaya, quantity])
   async function handleSubmit(event) {
     event.preventDefault();
+    console.log("clicked")
     const data = {
       productName: productName,
       fullName: name,
@@ -87,17 +97,16 @@ export function BuyForm({
       fullAddress: fullAddress,
       quantity: quantity,
       size: size,
-      codePromo : codePromo
+      codePromo: codePromo,
+      price: price,
     };
-    /*
-    setTimeout(() => {
-      setBuyForm(false);
-    }, 500);
-    setShowOrderNotification(true);
-    setTimeout(() => {
-      setShowOrderNotification(false);
-    }, 6000);
-*/
+    await fetch("http://localhost:3000/api/r2tG8xJ7k9", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
   }
   const [value, setValue] = useState(1);
   // this concerns handling the quantity
@@ -114,7 +123,7 @@ export function BuyForm({
         const newValue = value - 1;
         setValue(newValue);
         setQuantity(prev => prev > 1 ? prev - 1 : prev)
-       // onChange && onChange(newValue);
+        // onChange && onChange(newValue);
       }
     };
 
@@ -247,18 +256,16 @@ export function BuyForm({
           </span>
           <span className="">
             Total Cost :{" "}
-            {wilaya == "Algiers - 16"
-              ? quantity * parseInt(productPrice) + 400
-              : quantity * parseInt(productPrice) + 700}{" "}
-             DZD
+            {price}
+            DZD
           </span>
         </div>
         <button
           className="mb-10 w-[100%] flex justify-center"
         >
-          <div className="w-[80%] bg-black  h-[50px] text-white flex justify-center items-center text-3xl justify-self-center " >
+          <button type={"submit"} className="w-[80%] bg-black  h-[50px] text-white flex justify-center items-center text-3xl justify-self-center " >
             Confirm Order
-          </div>
+          </button>
         </button>
       </form>
     </div>

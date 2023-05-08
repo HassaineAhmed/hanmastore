@@ -6,19 +6,22 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
-  }
-model Test {
-    id Int @id @default(autoincrement())
-    msg String 
 }
+
+model Test {
+  id  Int    @id @default(autoincrement())
+  msg String
+}
+
 model ProductType {
   id       Int       @id @default(autoincrement())
   name     String
   fields   Field[]
   products Product[]
+
   @@unique([name])
 }
 
@@ -29,6 +32,7 @@ model Field {
   jsType      String
   productType ProductType[]
   productData ProductData[]
+
   @@unique([name])
 }
 
@@ -36,7 +40,7 @@ model Product {
   id              Int           @id @default(autoincrement())
   name            String
   isAvailable     Boolean       @default(false)
-  colors          Color[]       
+  colors          Color[]
   path            String        @default("")
   price           Float         @default(0)
   previous_price  Float         @default(0)
@@ -45,7 +49,12 @@ model Product {
   productType     ProductType   @relation(fields: [productTypeName], references: [name], onDelete: Cascade)
   productTypeName String
   ProductData     ProductData[]
-  orders  Order[]
+  orders          Order[]
+  material        String        @default("")
+  fit             String        @default("")
+  design          String        @default("")
+  model           String        @default("")
+
   @@unique([name])
 }
 
@@ -57,6 +66,7 @@ model ProductData {
   fieldName  String
   value      dataType @relation(fields: [dataTypeId], references: [id], onDelete: Cascade)
   dataTypeId Int
+
   @@unique([fieldName, dataTypeId])
 }
 
@@ -70,23 +80,27 @@ model dataType {
 }
 
 model Order {
-  id          Int            @id @default(autoincrement())
-  product   Product @relation(fields: [productName], onDelete: Cascade, references: [name])
-  productName String
-  fullName String
-  phoneNumber Int
+  id                Int      @id @default(autoincrement())
+  product           Product  @relation(fields: [productName], onDelete: Cascade, references: [name])
+  productName       String
+  fullName          String
+  phoneNumber       Int
   secondPhoneNumber Int?
-  wilaya String
-  fullAdress String
-  quantity  Int
-  size String
-  color String
-  createdAt  DateTime
+  wilaya            String
+  fullAdress        String
+  quantity          Int
+  size              String
+  color             String?
+  codePromo         String
+  price             Int
+  createdAt         DateTime
 }
-model Color  {
-  id Int @id @default(autoincrement())
-  color String 
-  hexCode String @default("")
+
+model Color {
+  id       Int       @id @default(autoincrement())
+  color    String
+  hexCode  String    @default("")
   products Product[]
-  @@unique([color]) 
+
+  @@unique([color])
 }

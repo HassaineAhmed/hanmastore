@@ -6,11 +6,9 @@ import styles from "../../../../../styles/productPage.module.css"
 import { BuyForm } from "../../../../../components/ProductPageComponents";
 import { getProductStockData, getProductsStocks, getProductsTypesWithOutFields } from "../../../../../prisma/playingWithData"
 export default function ProductPage({ productData }: any) {
-
   // handle swiping : 
   const containerRef = useRef(null);
-  const router = useRouter();
-  const category = router.query.category;
+  const router = useRouter(); const category = router.query.category;
   const productName = router.query.product;
   const logoPath = "/svgs/logoBlack.png";
   const circlePath = "/svgs/circle.svg";
@@ -24,7 +22,6 @@ export default function ProductPage({ productData }: any) {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false)
   function Images() {
     const containerRef = useRef(null);
-
     let startX, startY, moveX, dist, threshold;
     function touchStart(event: any) {
       startX = event.touches[0].clientX;
@@ -72,7 +69,7 @@ export default function ProductPage({ productData }: any) {
     }
     const ProductImageComponent = ({ index }: ProductImageComponentProps) => {
       const [isLoading, setIsLoading] = useState(true)
-
+      console.log(`${productData.path}/${index}.png`)
       const handleLoadingComplete = () => {
         setTimeout(() => setIsLoading(false)
           , 3000);
@@ -81,12 +78,11 @@ export default function ProductPage({ productData }: any) {
         className={`font-bebas_neue ${shownPic != index ? "hidden" : ""
           }`}
       >
-        <Image
+        <img
           src={`${productData.path}/${index}.png`}
           height={400}
           width={600}
           alt="product Image"
-          loading="eager"
         />
       </div>
     }
@@ -229,7 +225,10 @@ export default function ProductPage({ productData }: any) {
 
         { /* <price> */}
         <div className="grid jusify-center justify-center">
-          <p className="text-lg line-through leading-3 text-gray-500"> 2400.00 dz</p>
+          {
+            productData.previous_price != 0 &&
+            <p className="text-lg line-through leading-3 text-gray-500"> {productData.previous_price} </p>
+          }
           <p className="text-3xl left-[-20px] "> {productData.price}.00 DZD </p>
         </div>
 
@@ -304,7 +303,7 @@ export default function ProductPage({ productData }: any) {
                 }
               }}
             >
-              { size != "" ?
+              {size != "" ?
                 <Link className="w-[100%] flex justify-center" href={{ pathname: `/shop/${productData.productTypeName}/test/${productData.name}/shop`, query: { productTypeName: productData.productTypeName, size: size, chosenColor: chosenColor, productPrice: productData.price, productName: productData.name } }} prefetch={false}>
                   <div className="w-[80%] bg-black  h-[50px] text-white flex justify-center items-center text-3xl justify-self-center">
                     Order NOW
@@ -317,10 +316,10 @@ export default function ProductPage({ productData }: any) {
               }
             </button>
             <div className="grid items-center gap-3 mt-5">
-              <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">MATERIAL: </span> 100% Coton. </p>
-              <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">FIT: </span> OverSize </p>
-              <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">DESIGN: </span> a pic of hanma yujiro standing and a quote on the back </p>
-              <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">Models IG: </span> @mehdi.dz @sofain.dz </p>
+              <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">MATERIAL: </span> {productData.material}  </p>
+              <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">FIT: </span> {productData.fit} </p>
+              <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">DESIGN: </span> {productData.design} </p>
+              <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">Models IG: </span> {productData.model}  </p>
             </div>
             { /* End of the color and size section */}
             { /*  End of the color and size section

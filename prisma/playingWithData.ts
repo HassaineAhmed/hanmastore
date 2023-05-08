@@ -324,7 +324,7 @@ export async function deleteProduct(productType, productName) {
   console.log("product is deleted sucessfully");
 }
 
-export async function createOrder({
+export async function placeOrder({
   productName,
   fullName,
   phoneNumber,
@@ -333,8 +333,8 @@ export async function createOrder({
   fullAddress,
   quantity,
   size,
-  color,
-  createdAt,
+  codePromo,
+  price,
 }) {
   const order = await prisma.order.create({
     data: {
@@ -346,7 +346,9 @@ export async function createOrder({
       fullAdress: fullAddress,
       quantity: parseInt(quantity),
       size: size,
-      color: color,
+      color: "",
+      codePromo : codePromo,
+      price : price,
       createdAt: new Date(),
     },
   });

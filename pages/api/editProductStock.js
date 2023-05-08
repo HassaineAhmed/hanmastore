@@ -46,7 +46,6 @@ const handler = nextConnect({
       // fse.rmSync(`./public/images/${requestData.productType}s/${requestData.previous_name}`, { recursive: true, force: true });
       fse.renameSync(
         `./public/images/${requestData.productType}s/${requestData.previous_name}`,
-
         `./public/images/${requestData.productType}s/${requestData.name}`,
         (err) => {
           if (err) {
@@ -104,7 +103,7 @@ const handler = nextConnect({
       previous_name: previous_name,
       isAvailable: isAvailable,
       price: price,
-      path: `/images/${productType}/${name}`,
+      path: `/images/${productType}s/${name}`,
       howManyPics: changedData.howManyPics,
       productType: productType,
       dataArray: Object.entries(arr),
