@@ -116,9 +116,9 @@ export async function getProductTypeData(name) {
   return data;
 }
 
-export async function createProductStock(formData : any) {
+export async function createProductStock(formData: any) {
   const fields = await getFields();
-  const arr = formData.dataArray.map((element : any) => {
+  const arr = formData.dataArray.map((element: any) => {
     for (let i in fields) {
       if (fields[i].name == element[0]) {
         return [...element, fields[i].jsType];
@@ -347,8 +347,8 @@ export async function createOrder({
       quantity: parseInt(quantity),
       size: size,
       color: "",
-      codePromo : codePromo,
-      price : price,
+      codePromo: codePromo,
+      price: price,
       createdAt: new Date(),
     },
   });
