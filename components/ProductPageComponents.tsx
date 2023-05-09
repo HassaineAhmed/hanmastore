@@ -83,7 +83,7 @@ export function BuyForm({
     setUsesCodePromo(false)
     codePromos.forEach(c => { if (c == codePromo) { setUsesCodePromo(true); console.log("just turned to true :", usesCodePromo) } })
   }
-    , [codePromo])
+    , [codePromos, usesCodePromo])
   useEffect(() => {
     if (usesCodePromo) {
       wilaya == "Algiers - 16"
@@ -95,7 +95,7 @@ export function BuyForm({
         : setPrice(quantity * parseInt(productPrice) + 700)
     }
   }
-    , [wilaya, quantity, productPrice,usesCodePromo])
+    , [wilaya, quantity, productPrice, reducedPrice,usesCodePromo])
   async function handleSubmit(event) {
 
     event.preventDefault();
