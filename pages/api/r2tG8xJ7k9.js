@@ -10,11 +10,13 @@ async function createOrder({
     quantity,
     size,
     price,
+    reducedPrice,
+    codePromo,
+    usesCodePromo,
 
 }) {
     await prisma.order.create({
         data: {
-
             product: { connect: { name: productName } },
             fullName: fullName,
             phoneNumber: parseInt(phoneNumber),
@@ -26,12 +28,15 @@ async function createOrder({
             color: "",
             price: price,
             createdAt: new Date(),
-            codePromo: "",
+            codePromo: codePromo,
         }
     })
-}
-    export default function placeOrder(req, res) {
-
-        createOrder(req.body);
-        res.status(200);
+    if (usesCodePromo) {
+        const unUpdatedCodePromo = await prisma.codePromo.findUnique({ where: { codePromo: codePromo } })
+        await prisma.codePromo.update({ where: { codePromo: codePromo }, data: { profit: 1000 * quantity * (unUpdatedCodePromo.percentage / 100 ) } })
     }
+}
+export default function placeOrder(req, res) {
+    createOrder(req.body);
+    res.writeHead(200, {})
+}

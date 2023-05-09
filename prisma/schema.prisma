@@ -44,9 +44,19 @@ model Product {
   material        String        @default("")
   model           String        @default("")
   colors          Color[]
+  reducedPrice    Int           @default(0)
   productType     ProductType   @relation(fields: [productTypeName], references: [name], onDelete: Cascade)
   ProductData     ProductData[]
   orders          Order[]
+}
+
+model CodePromo {
+  id         Int    @id @default(autoincrement())
+  codePromo  String
+  count      Int
+  percentage Int
+  profit     Int
+  @@unique([codePromo])
 }
 
 model ProductData {

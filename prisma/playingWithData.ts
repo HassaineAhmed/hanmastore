@@ -1,7 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-
+export async function getCodePromos() {
+  const codePromos = await prisma.codePromo.findMany();
+  return codePromos;
+}
 export async function getColors() {
   const colors = await prisma.color.findMany()
   return colors.map(color => color.color);

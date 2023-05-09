@@ -83,7 +83,7 @@ function CategoryOptions({ categories }) {
 }
 export function WelcomingSection({ categories }) {
   return (
-    <div className="bg-white gap-6 grid justify-center items-start py-8">
+    <div className="bg-white gap-4 grid justify-center items-start py-8">
       <div className="grid gap-2 justify-center items-center">
         <Image
           className={"justify-self-center"}
@@ -96,9 +96,11 @@ export function WelcomingSection({ categories }) {
           {" "}
           Welcome to hanma store{" "}
         </p>
+        { /* 
         <p className="text-md text-center px-3 font-dm_sans">
           Discover your unique style with our trendy and affordable clothing. Shop now for your new favorite pieces!
         </p>
+        */ }
       </div>
       <div className="grid gap-2 justify-center items-center">
         <p className="text-xl font-bold text-center font-dm_sans ">How Does It Work</p>
@@ -108,7 +110,7 @@ export function WelcomingSection({ categories }) {
               <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
             </svg>
             <p className={"text-md font-dm_sans font-[500] text-black  leading-5"}>
-              Buy a product from a website.
+              Order a product from a website.
             </p>
           </div>
           <div className="flex gap-4">
@@ -143,7 +145,6 @@ export function ProductComponent({ text_color, bg_color, category, productData }
       <div className="grid justify-center items-center " data-aos="zoom-in" data-aos-duration="500" data-aos-once="true">
         <Image src={`/images/${category}s/${productData.name}/1.png`} className="mb-1" alt="model" width={300} height={500} />
         <p className={`text-black text-sm tracking-normal text-center mb-1`}>{productData.name}</p>
-
         <div className="flex justify-center items-center gap-6">
           <div className={"grid justify-center items-start leading-3"}>
             {productData.previous_price != 0 &&
@@ -151,10 +152,12 @@ export function ProductComponent({ text_color, bg_color, category, productData }
             }
             <p className={`text-black text-xl`}>{productData.price} DZD</p>
           </div>
+          { /*
           <div className="flex items-center justify-center mb-1 gap-[2px]">
             <div className="bg-white border-[2px] border-[#686D76] p-[11px]" />
             <div className="bg-black border-[2px] border-[#686D76] p-[11px]" />
           </div>
+          */ }
         </div>
       </div></Link>)
 }

@@ -66,8 +66,9 @@ export function BuyForm({
   chosenColor,
   productName,
   productPrice,
+  codePromos,
+  reducedPrice
 }) {
-  console.log(productPrice);
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [secondPhoneNumber, setSecondPhoneNumber] = useState("");
@@ -77,17 +78,27 @@ export function BuyForm({
   const [quantity, setQuantity] = useState(1)
   const [codePromo, setCodePromo] = useState("");
   const [price, setPrice] = useState(0);
+  const [usesCodePromo, setUsesCodePromo] = useState(false)
   useEffect(() => {
-    {
+    setUsesCodePromo(false)
+    codePromos.forEach(c => { if (c == codePromo) { setUsesCodePromo(true); console.log("just turned to true :", usesCodePromo) } })
+  }
+    , [codePromo])
+  useEffect(() => {
+    if (usesCodePromo) {
+      wilaya == "Algiers - 16"
+        ? setPrice(quantity * parseInt(reducedPrice != 0 ? reducedPrice : productPrice) + 400)
+        : setPrice(quantity * parseInt(reducedPrice != 0 ? reducedPrice : productPrice) + 700)
+    } else {
       wilaya == "Algiers - 16"
         ? setPrice(quantity * parseInt(productPrice) + 400)
         : setPrice(quantity * parseInt(productPrice) + 700)
     }
   }
-    , [wilaya, quantity, productPrice])
+    , [wilaya, quantity, productPrice,usesCodePromo])
   async function handleSubmit(event) {
+
     event.preventDefault();
-    console.log("clicked")
     const data = {
       productName: productName,
       fullName: name,
@@ -99,14 +110,16 @@ export function BuyForm({
       size: size,
       codePromo: codePromo,
       price: price,
+      usesCodePromo: usesCodePromo,
+      reducedPrice: reducedPrice,
     };
-    await fetch("http://localhost:3000/api/r2tG8xJ7k9", {
+    await fetch("https://hanmastore.vercel.app/api/r2tG8xJ7k9", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json"
       }
-    })
+    }).then(res => res.status).then(status => { console.log(status); status == 200 && location.reload() }).catch(err => console.log(err))
   }
   const [value, setValue] = useState(1);
   // this concerns handling the quantity
@@ -249,7 +262,7 @@ export function BuyForm({
         <div className="grid text-2xl justify-center my-5 ">
           {/* <span className="text-[35px]">Price</span> */}
           <span className="">
-            {productName}&apos;s cost : {productPrice} DZD
+            {productName}&apos;s cost : {usesCodePromo ? reducedPrice : productPrice} DZD
           </span>
           <span className="">
             Delivery cost : {wilaya == "Algiers - 16" ? "400 DZD" : "700 DZD"}

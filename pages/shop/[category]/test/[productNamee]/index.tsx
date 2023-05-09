@@ -4,8 +4,8 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import styles from "../../../../../styles/productPage.module.css"
 import { BuyForm } from "../../../../../components/ProductPageComponents";
-import { getProductStockData, getProductsStocks, getProductsTypesWithOutFields } from "../../../../../prisma/playingWithData"
-export default function ProductPage({ productData }: any) {
+import { getProductStockData, getProductsStocks, getCodePromos, getProductsTypesWithOutFields } from "../../../../../prisma/playingWithData"
+export default function ProductPage({ productData, codePromos }: any) {
   // handle swiping : 
   const containerRef = useRef(null);
   const router = useRouter(); const category = router.query.category;
@@ -29,7 +29,6 @@ export default function ProductPage({ productData }: any) {
     }
     function touchMove(event: any) {
       moveX = event.touches[0].clientX;
-
     }
     function touchEnd(event: any) {
       if (startX + 100 < moveX) { shownPic > 1 ? setShownPic(prev => prev - 1) : setShownPic(howManyPics) }
@@ -53,7 +52,6 @@ export default function ProductPage({ productData }: any) {
 
       if (dist >= threshold) {
         // handle swipe
-        console.log('swiped', swipeDir);
         if (swipeDir == "left" || shownPic > 1) {
           setShownPic(prev => prev + 1);
         } else if (swipeDir == "right" || shownPic < howManyPics) {
@@ -69,7 +67,6 @@ export default function ProductPage({ productData }: any) {
     }
     const ProductImageComponent = ({ index }: ProductImageComponentProps) => {
       const [isLoading, setIsLoading] = useState(true)
-      console.log(`${productData.path}/${index}.png`)
       const handleLoadingComplete = () => {
         setTimeout(() => setIsLoading(false)
           , 3000);
@@ -304,7 +301,7 @@ export default function ProductPage({ productData }: any) {
               }}
             >
               {size != "" ?
-                <Link className="w-[100%] flex justify-center" href={{ pathname: `/shop/${productData.productTypeName}/test/${productData.name}/shop`, query: { productTypeName: productData.productTypeName, size: size, chosenColor: chosenColor, productPrice: productData.price, productName: productData.name } }} prefetch={false}>
+                <Link className="w-[100%] flex justify-center" href={{ pathname: `/shop/${productData.productTypeName}/test/${productData.name}/shop`, query: {  codePromos : codePromos.map( c => c.codePromo) , productTypeName: productData.productTypeName, size: size, chosenColor: chosenColor, reducedPrice : productData.reducedPrice, productPrice: productData.price, productName: productData.name } }} prefetch={false}>
                   <div className="w-[80%] bg-black  h-[50px] text-white flex justify-center items-center text-3xl justify-self-center">
                     Order NOW
                   </div>
@@ -345,6 +342,7 @@ export async function getServerSideProps(context: any) {
   const product = context.params.productNamee;
   const categories = await getProductsTypesWithOutFields();
   const products = await getProductsStocks();
+  const codePromos = await getCodePromos();
   let productFound = false, categoryFound = false;
   products.map((p: any) => { if (p.name == product) productFound = true });
   categories.map((c: any) => { if (c.name == category) categoryFound = true });
@@ -354,6 +352,6 @@ export async function getServerSideProps(context: any) {
     };
   }
   const productData = await getProductStockData(product)
-  return { props: { productData } };
+  return { props: { productData, codePromos } };
 }
 
