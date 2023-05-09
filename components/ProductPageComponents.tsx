@@ -80,11 +80,13 @@ export function BuyForm({
   const [price, setPrice] = useState(0);
   const [usesCodePromo, setUsesCodePromo] = useState(false)
   useEffect(() => {
+    console.log("first one did run")
     setUsesCodePromo(false)
     codePromos.forEach(c => { if (c == codePromo) { setUsesCodePromo(true); console.log("just turned to true :", usesCodePromo) } })
   }
-    , [codePromos, usesCodePromo])
+    , [wilaya, quantity, codePromo, codePromos, usesCodePromo])
   useEffect(() => {
+    console.log("second one did run")
     if (usesCodePromo) {
       wilaya == "Algiers - 16"
         ? setPrice(quantity * parseInt(reducedPrice != 0 ? reducedPrice : productPrice) + 400)
@@ -95,7 +97,7 @@ export function BuyForm({
         : setPrice(quantity * parseInt(productPrice) + 700)
     }
   }
-    , [wilaya, quantity, productPrice, reducedPrice,usesCodePromo])
+    , [wilaya, quantity, productPrice, reducedPrice, usesCodePromo])
   async function handleSubmit(event) {
 
     event.preventDefault();

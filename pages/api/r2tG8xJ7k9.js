@@ -39,4 +39,5 @@ async function createOrder({
 export default function placeOrder(req, res) {
     createOrder(req.body);
     res.writeHead(200, {})
+    res.status(200)
 }
