@@ -321,7 +321,9 @@ export default function ProductPage({ productData, codePromos }: any) {
             <div className="grid items-center gap-3 mt-5">
               <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">MATERIAL: </span> {productData.material}  </p>
               <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">FIT: </span> {productData.fit} </p>
-              <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">DESIGN: </span> {productData.design} </p>
+              {productData.design != "" &&
+                <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">DESIGN: </span> {productData.design} </p>
+              }
               <p className="text-base font-nunito_sans"> <span className="text-base font-nunito_sans font-[500]">Models IG: </span> {productData.model}  </p>
             </div>
             { /* End of the color and size section */}

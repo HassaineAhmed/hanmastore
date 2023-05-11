@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router"
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
@@ -80,13 +81,11 @@ export function BuyForm({
   const [price, setPrice] = useState(0);
   const [usesCodePromo, setUsesCodePromo] = useState(false)
   useEffect(() => {
-    console.log("first one did run")
     setUsesCodePromo(false)
-    codePromos.forEach(c => { if (c == codePromo) { setUsesCodePromo(true); console.log("just turned to true :", usesCodePromo) } })
+    codePromos.forEach(c => { if (c == codePromo) { setUsesCodePromo(true); } })
   }
     , [wilaya, quantity, codePromo, codePromos, usesCodePromo])
   useEffect(() => {
-    console.log("second one did run")
     if (usesCodePromo) {
       wilaya == "Algiers - 16"
         ? setPrice(quantity * parseInt(reducedPrice != 0 ? reducedPrice : productPrice) + 400)
@@ -98,6 +97,7 @@ export function BuyForm({
     }
   }
     , [wilaya, quantity, productPrice, reducedPrice, usesCodePromo])
+  const router = useRouter()
   async function handleSubmit(event) {
     event.preventDefault();
     const data = {
@@ -115,12 +115,13 @@ export function BuyForm({
       reducedPrice: reducedPrice,
     };
     await fetch("https://hanmastore.vercel.app/api/r2tG8xJ7k9", {
+    //await fetch("http://localhost:3000/api/r2tG8xJ7k9", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json"
       }
-    }).then(res => res.status).then(status => { location.reload() }).catch(err => console.log(err))
+    }).then(res => res.json()).then(msg => { router.push("/"); }).catch(err => console.log(err))
   }
   const [value, setValue] = useState(1);
   // this concerns handling the quantity
