@@ -5,6 +5,7 @@ import Image from "next/image";
 import styles from "../../../../../styles/productPage.module.css"
 import { BuyForm } from "../../../../../components/ProductPageComponents";
 import { getProductStockData, getProductsStocks, getCodePromos, getProductsTypesWithOutFields } from "../../../../../prisma/playingWithData"
+import { CircularProgress } from "@mui/material";
 export default function ProductPage({ productData, codePromos }: any) {
   // handle swiping : 
   const containerRef = useRef(null);
@@ -59,7 +60,6 @@ export default function ProductPage({ productData, codePromos }: any) {
         }
       }
     }
-
     const [shownPic, setShownPic] = useState(1);
     interface ProductImageComponentProps {
       index: number,
@@ -68,20 +68,26 @@ export default function ProductPage({ productData, codePromos }: any) {
     const ProductImageComponent = ({ index }: ProductImageComponentProps) => {
       const [isLoading, setIsLoading] = useState(true)
       const handleLoadingComplete = () => {
-        setTimeout(() => setIsLoading(false)
-          , 3000);
+        setIsLoading(false)
       }
       return <div
-        className={`font-bebas_neue ${shownPic != index ? "hidden" : ""
+        className={`font-bebas_neue relative ${shownPic != index ? "hidden" : ""
           }`}
       >
+        {isLoading &&
+          <div className="absolute bg-[#efefef] flex justify-center items-center w-[100%] h-[100%]">
+            <CircularProgress size={50} color={"inherit"} />
+          </div>
+        }
         <Image
           src={`${productData.path}/${index}.png`}
           height={400}
+          onLoad={handleLoadingComplete}
           width={600}
           alt="product Image"
         />
       </div>
+
     }
     let images: React.FC<ProductImageComponentProps>[] = [];
     let howManyPicsArray = Array.from({ length: parseInt(productData.howManyPics) }, (_, index) => index + 1);
@@ -301,7 +307,7 @@ export default function ProductPage({ productData, codePromos }: any) {
               }}
             >
               {size != "" ?
-                <Link className="w-[100%] flex justify-center" href={{ pathname: `/shop/${productData.productTypeName}/test/${productData.name}/shop`, query: {  codePromos : codePromos.map( c => c.codePromo) , productTypeName: productData.productTypeName, size: size, chosenColor: chosenColor, reducedPrice : productData.reducedPrice, productPrice: productData.price, productName: productData.name } }} prefetch={false}>
+                <Link className="w-[100%] flex justify-center" href={{ pathname: `/shop/${productData.productTypeName}/test/${productData.name}/shop`, query: { codePromos: codePromos.map(c => c.codePromo), productTypeName: productData.productTypeName, size: size, chosenColor: chosenColor, reducedPrice: productData.reducedPrice, productPrice: productData.price, productName: productData.name } }} prefetch={false}>
                   <div className="w-[80%] bg-black  h-[50px] text-white flex justify-center items-center text-3xl justify-self-center">
                     Order NOW
                   </div>

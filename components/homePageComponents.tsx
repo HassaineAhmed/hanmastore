@@ -162,11 +162,12 @@ export function ProductComponent({ text_color, bg_color, category, productData }
       </div></Link>)
 }
 export function TrendingSection({ text_color, trendingProducts, bg_color }) {
+  // is it currently not a trending section
   return (
     <Element name="TrendingSection" className="">
       <div className={"pt-2 pb-8 bg-white grid justify-center items-center"}>
         <div className=" w-[90%] justify-self-center border-solid border-[black] border-t-2 pt-3 border-black" > </div>
-        <p className={`text-center text-black text-[60px]`}>TRENDINGS</p>{" "}
+        <p className={`text-center text-black text-[60px]`}>OUR ATHLETES</p>{" "}
         <div className="grid justify-center content-around gap-2 gap-y-3 mx-3 items-center grid-cols-2">
           {trendingProducts.map((product, index) =>
             <ProductComponent key={index} category={product.productTypeName} text_color={"text-white"} bg_color={"bg-black"} productData={product} />

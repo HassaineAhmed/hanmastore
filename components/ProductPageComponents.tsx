@@ -99,7 +99,6 @@ export function BuyForm({
   }
     , [wilaya, quantity, productPrice, reducedPrice, usesCodePromo])
   async function handleSubmit(event) {
-
     event.preventDefault();
     const data = {
       productName: productName,
@@ -121,7 +120,7 @@ export function BuyForm({
       headers: {
         "Content-Type": "application/json"
       }
-    }).then(res => res.status).then(status => { console.log(status); status == 200 && location.reload() }).catch(err => console.log(err))
+    }).then(res => res.status).then(status => { location.reload() }).catch(err => console.log(err))
   }
   const [value, setValue] = useState(1);
   // this concerns handling the quantity
