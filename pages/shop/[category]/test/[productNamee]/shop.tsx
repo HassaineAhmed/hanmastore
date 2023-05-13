@@ -9,8 +9,19 @@ export default function Shop() {
     const context = router.query;
     const backArrowPath = "/svgs/backArrow.svg";
     const [showPhoneNumber, setShowPhoneNumber] = useState(false)
+    const [showOrderNotification, setShowOrderNotification] = useState(false);
     return (
         <div className="grid font-bebas_neue ">
+            <div
+                className={`${styles.OrderNotification} ${showOrderNotification ? "translate-y-[200px]" : " "
+                    }
+          bg-[#cbf7d6]  rounded-xl  py-[10px] px-[5px] left-0 right-0 ml-auto mr-auto 
+          `}
+            >
+                <p className="text-[#1d4728] text-[20px] ">
+                    Your order has been confirmed, We&apos;ll call you soon
+                </p>
+            </div>
             <div
                 className={`${styles.PhoneNumber} ${showPhoneNumber ? "translate-y-[50vh]" : " opacity-0"
                     }
@@ -50,6 +61,7 @@ export default function Shop() {
                 </button>
             </div>
             <BuyForm
+                setShowOrderNotification={setShowOrderNotification}
                 codePromos={context.codePromos} reducedPrice={context.reducedPrice} size={context.size} chosenColor={context.chosenColor} productPrice={context.productPrice} productName={context.productName} />
 
         </div>

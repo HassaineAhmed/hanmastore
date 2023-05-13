@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router"
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -68,14 +68,15 @@ export function BuyForm({
   productName,
   productPrice,
   codePromos,
-  reducedPrice
+  reducedPrice,
+  setShowOrderNotification
 }) {
+  const formRef = useRef(null);
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [secondPhoneNumber, setSecondPhoneNumber] = useState("");
   const [wilaya, setWilaya] = useState("");
   const [fullAddress, setFullAddress] = useState("");
-  const [showOrderNotification, setShowOrderNotification] = useState(false)
   const [quantity, setQuantity] = useState(1)
   const [codePromo, setCodePromo] = useState("");
   const [price, setPrice] = useState(0);
@@ -113,15 +114,32 @@ export function BuyForm({
       price: price,
       usesCodePromo: usesCodePromo,
       reducedPrice: reducedPrice,
+      setShowOrderNotification: setShowOrderNotification,
     };
-    await fetch("https://hanmastore.vercel.app/api/r2tG8xJ7k9", {
-    //await fetch("http://localhost:3000/api/r2tG8xJ7k9", {
+    //    await fetch("https://hanmastore.vercel.app/api/r2tG8xJ7k9", {
+    await fetch("http://localhost:3000/api/r2tG8xJ7k9", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json"
       }
-    }).then(res => res.status).then(status => { console.log(status); if (status == 200) { router.push("/"); } else { router.push("/"); } }).catch(err => console.log(err))
+    }).then(res => { console.log("hello"); return res.status }).then(status => {
+      if (status == 200) {
+        setName("");
+        setPhoneNumber("");
+        setWilaya("");
+        setFullAddress("");
+        setQuantity(0);
+        setCodePromo("");
+        setSecondPhoneNumber("");
+        setShowOrderNotification(true);
+        setTimeout(() => {
+          setShowOrderNotification(false);
+        }, 6000);
+      }
+      else { console.log(" not 200"); router.push("/"); }
+
+    }).catch(err => console.log(err))
   }
   const [value, setValue] = useState(1);
   // this concerns handling the quantity
@@ -188,6 +206,7 @@ export function BuyForm({
   return (
     <div className=" font-bebas_neue  bg-[#efefef] top-[5%] left-[3%] rounded-2xl bg-[white] grid items-center justify-center ">
       <form
+        ref={formRef}
         onSubmit={handleSubmit}
         className={"grid justify-center w-[100vw] items-center"}
       >

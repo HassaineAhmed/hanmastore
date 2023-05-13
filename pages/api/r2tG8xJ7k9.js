@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
-async function createOrder({
+const prisma = new PrismaClient() async function createOrder({
     productName,
     fullName,
     phoneNumber,
@@ -37,6 +36,7 @@ async function createOrder({
             await prisma.codePromo.update({ where: { codePromo: codePromo }, data: { profit: unUpdatedCodePromo.profit + 1000 * quantity * (unUpdatedCodePromo.percentage / 100) } })
         }
     } catch (e) {
+        console.log(e);
         return null;
     }
 }
@@ -45,6 +45,7 @@ export default function placeOrder(req, res) {
     if (order == null) {
         res.status(504)
     } else {
-        res.status(200);
+        console.log("finished succressfully");
+        res.status(200).json({ msg: "orderd has been confirmed" });
     }
 }

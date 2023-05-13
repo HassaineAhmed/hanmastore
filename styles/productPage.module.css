@@ -2,6 +2,16 @@
 
   margin: 0;
 }
+.OrderNotification {
+  position: absolute;
+  top: -100px;
+  padding: 20px;
+  width: 70%;
+  transition: transform 0.5s ease-out;
+  /* transform: translateY(200px); */
+  /* transform: translateY(-100%); */
+  /* opacity: 1; */
+}
 
 
 .imagesWrapper {
