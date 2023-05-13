@@ -15,28 +15,36 @@ async function createOrder({
     usesCodePromo,
 
 }) {
-    await prisma.order.create({
-        data: {
-            product: { connect: { name: productName } },
-            fullName: fullName,
-            phoneNumber: parseInt(phoneNumber),
-            secondPhoneNumber: parseInt(secondPhoneNumber),
-            wilaya: wilaya,
-            fullAdress: fullAddress,
-            quantity: parseInt(quantity),
-            size: size,
-            color: "",
-            price: price,
-            createdAt: new Date(),
-            codePromo: codePromo,
+    try {
+        await prisma.order.create({
+            data: {
+                product: { connect: { name: productName } },
+                fullName: fullName,
+                phoneNumber: parseInt(phoneNumber),
+                secondPhoneNumber: parseInt(secondPhoneNumber),
+                wilaya: wilaya,
+                fullAdress: fullAddress,
+                quantity: parseInt(quantity),
+                size: size,
+                color: "",
+                price: price,
+                createdAt: new Date(),
+                codePromo: codePromo,
+            }
+        })
+        if (usesCodePromo) {
+            const unUpdatedCodePromo = await prisma.codePromo.findUnique({ where: { codePromo: codePromo } })
+            await prisma.codePromo.update({ where: { codePromo: codePromo }, data: { profit: unUpdatedCodePromo.profit + 1000 * quantity * (unUpdatedCodePromo.percentage / 100) } })
         }
-    })
-    if (usesCodePromo) {
-        const unUpdatedCodePromo = await prisma.codePromo.findUnique({ where: { codePromo: codePromo } })
-        await prisma.codePromo.update({ where: { codePromo: codePromo }, data: { profit: unUpdatedCodePromo.profit + 1000 * quantity * (unUpdatedCodePromo.percentage / 100) } })
+    } catch (e) {
+        return null;
     }
 }
 export default function placeOrder(req, res) {
-    createOrder(req.body);
-    res.json( { "msg" : "order has been received" });
+    const order = createOrder(req.body);
+    if (order == null) {
+        res.status(504)
+    } else {
+        res.status(200);
+    }
 }
