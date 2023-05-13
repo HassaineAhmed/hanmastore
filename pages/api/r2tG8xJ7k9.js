@@ -16,7 +16,7 @@ async function createOrder({
 
 }) {
     try {
-        await prisma.order.create({
+        const order = await prisma.order.create({
             data: {
                 product: { connect: { name: productName } },
                 fullName: fullName,
@@ -36,6 +36,7 @@ async function createOrder({
             const unUpdatedCodePromo = await prisma.codePromo.findUnique({ where: { codePromo: codePromo } })
             await prisma.codePromo.update({ where: { codePromo: codePromo }, data: { profit: unUpdatedCodePromo.profit + 1000 * quantity * (unUpdatedCodePromo.percentage / 100) } })
         }
+        return order
     } catch (e) {
         console.log(e);
         return null;
