@@ -13,13 +13,13 @@ export default function Shop() {
     return (
         <div className="grid font-bebas_neue ">
             <div
-                className={`${styles.OrderNotification} ${showOrderNotification ? "translate-y-[200px]" : " "
+                className={`${styles.OrderNotification} ${showOrderNotification ? "translate-y-[300px]" : " "
                     }
-          bg-[#cbf7d6]  rounded-xl  py-[10px] px-[5px] left-0 right-0 ml-auto mr-auto 
+          bg-[#cbf7d6] z-50  rounded-xl  py-[15px] px-[10px]   text-center left-0 right-0 ml-auto mr-auto 
           `}
             >
-                <p className="text-[#1d4728] text-[20px] ">
-                    Your order has been confirmed, We&apos;ll call you soon
+                <p className="text-[#1d4728] text-2xl ">
+                    Your order has been confirmed<br/> We&apos;ll call you soon
                 </p>
             </div>
             <div

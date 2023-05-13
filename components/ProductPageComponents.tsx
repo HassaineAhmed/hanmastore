@@ -116,14 +116,14 @@ export function BuyForm({
       reducedPrice: reducedPrice,
       setShowOrderNotification: setShowOrderNotification,
     };
-        await fetch("https://hanmastore.vercel.app/api/r2tG8xJ7k9", {
-    //await fetch("http://localhost:3000/api/r2tG8xJ7k9", {
+    await fetch("https://hanmastore.vercel.app/api/r2tG8xJ7k9", {
+   // await fetch("http://localhost:3000/api/r2tG8xJ7k9", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json"
       }
-    }).then(res => { console.log("hello"); return res.status }).then(status => {
+    }).then(res => res.status ).then(status => {
       if (status == 200) {
         setName("");
         setPhoneNumber("");
