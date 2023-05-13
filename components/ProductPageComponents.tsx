@@ -89,11 +89,11 @@ export function BuyForm({
     if (usesCodePromo) {
       wilaya == "Algiers - 16"
         ? setPrice(quantity * parseInt(reducedPrice != 0 ? reducedPrice : productPrice) + 400)
-        : setPrice(quantity * parseInt(reducedPrice != 0 ? reducedPrice : productPrice) + 700)
+        : setPrice(quantity * parseInt(reducedPrice != 0 ? reducedPrice : productPrice) + 500)
     } else {
       wilaya == "Algiers - 16"
         ? setPrice(quantity * parseInt(productPrice) + 400)
-        : setPrice(quantity * parseInt(productPrice) + 700)
+        : setPrice(quantity * parseInt(productPrice) + 500)
     }
   }
     , [wilaya, quantity, productPrice, reducedPrice, usesCodePromo])
@@ -121,7 +121,7 @@ export function BuyForm({
       headers: {
         "Content-Type": "application/json"
       }
-    }).then(res => res.json()).then(msg => { router.push("/"); }).catch(err => console.log(err))
+    }).then(res => res.status).then(status => { console.log(status); if (status == 200) { router.push("/"); } else { router.push("/error"); } }).catch(err => console.log(err))
   }
   const [value, setValue] = useState(1);
   // this concerns handling the quantity
@@ -267,7 +267,7 @@ export function BuyForm({
             {productName}&apos;s cost : {usesCodePromo ? reducedPrice : productPrice} DZD
           </span>
           <span className="">
-            Delivery cost : {wilaya == "Algiers - 16" ? "400 DZD" : "700 DZD"}
+            Delivery cost : {wilaya == "Algiers - 16" ? "400 DZD" : "500 DZD"}
           </span>
           <span className="">
             Total Cost :{" "}
