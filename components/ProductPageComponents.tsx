@@ -121,7 +121,7 @@ export function BuyForm({
       headers: {
         "Content-Type": "application/json"
       }
-    }).then(res => res.status).then(status => { console.log(status); if (status == 200) { router.push("/"); } else { router.push("/error"); } }).catch(err => console.log(err))
+    }).then(res => res.status).then(status => { console.log(status); if (status == 200) { router.push("/"); } else { router.push("/"); } }).catch(err => console.log(err))
   }
   const [value, setValue] = useState(1);
   // this concerns handling the quantity
