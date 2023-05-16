@@ -36,10 +36,11 @@ async function createOrder({
             const unUpdatedCodePromo = await prisma.codePromo.findUnique({ where: { codePromo: codePromo } })
             await prisma.codePromo.update({ where: { codePromo: codePromo }, data: { profit: unUpdatedCodePromo.profit + 1000 * quantity * (unUpdatedCodePromo.percentage / 100) } })
         }
-        console.log(order);
+        console.log("nrmlm fad");
+        console.log("here is the order :",order);
         return order
     } catch (e) {
-        console.log(e);
+        console.log("error : ",e);
         return null;
     }
 }
@@ -48,7 +49,7 @@ export default function placeOrder(req, res) {
     if (order == null) {
         res.status(504)
     } else {
-        console.log("finished succressfully");
+        console.log("finished succressfully :", order );
         res.status(200).json({ msg: "orderd has been confirmed" });
     }
 }
