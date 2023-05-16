@@ -13,7 +13,7 @@ export async function createOrder({
   quantity,
   size,
   price,
-  reducedPrice,
+  //  reducedPrice,
   codePromo,
   usesCodePromo,
 }) {
@@ -35,8 +35,8 @@ export async function createOrder({
       }
     })
     if (usesCodePromo) {
-      const unUpdatedCodePromo = await prisma.codePromo.findUnique({ where: { codePromo: codePromo } })
-      await prisma.codePromo.update({ where: { codePromo: codePromo }, data: { profit: unUpdatedCodePromo.profit + 1000 * quantity * (unUpdatedCodePromo.percentage / 100) } })
+      let unUpdatedCodePromo = await prisma.codePromo.findUnique({ where: { codePromo: codePromo } })
+      unUpdatedCodePromo != null && await prisma.codePromo.update({ where: { codePromo: codePromo }, data: { profit: unUpdatedCodePromo.profit + 1000 * quantity * (unUpdatedCodePromo.percentage / 100) } })
     }
     console.log("nrmlm fad");
     console.log("here is the order :", order);
