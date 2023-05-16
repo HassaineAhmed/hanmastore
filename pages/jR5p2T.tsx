@@ -7,7 +7,7 @@ export default function Page({ orders }) {
       <p className="text-xl text-white" ><span className="font-bold">  wilaya </span>  : {wilaya} </p>
       <p className="text-xl text-white" ><span className="font-bold">  address </span>  : {fullAdress} </p>
       <p className="text-xl text-white" ><span className="font-bold">  phoneNumber </span>  : {phoneNumber} </p>
-      { secondPhoneNumber != 0 && <p className="text-xl text-white" ><span className="font-bold"> customer's secondPhoneNumber </span>  : {secondPhoneNumber} </p> }
+      { secondPhoneNumber != 0 && <p className="text-xl text-white" ><span className="font-bold"> secondPhoneNumber </span>  : {secondPhoneNumber} </p> }
       <p className="text-xl text-white" ><span className="font-bold">  quantity </span>  : {quantity} </p>
       <p className="text-xl text-white" ><span className="font-bold">  size </span>  : {size} </p>
       <p className="text-xl text-white" ><span className="font-bold">  usedCodepromo </span>  : {codePromo} </p>
