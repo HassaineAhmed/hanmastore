@@ -46,6 +46,10 @@ export async function createOrder({
     return null;
   }
 }
+export async function getOrders() {
+  const order = await prisma.order.findMany({ select: { fullName: true, productName: true, phoneNumber: true, secondPhoneNumber: true, wilaya: true, fullAdress: true, quantity: true, size: true, codePromo: true, price: true, createdAt: false } });
+  return order;
+}
 export async function getCodePromos() {
   const codePromos = await prisma.codePromo.findMany();
   return codePromos;
